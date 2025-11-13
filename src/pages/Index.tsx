@@ -4,8 +4,12 @@ import { RiskChart } from "@/components/Dashboard/RiskChart";
 import { AssetTable } from "@/components/Dashboard/AssetTable";
 import { MigrationQueue } from "@/components/Dashboard/MigrationQueue";
 import { QuantumSimulator } from "@/components/Dashboard/QuantumSimulator";
+import { parseCSV, calculateMetrics } from "@/utils/dataParser";
 
 const Index = () => {
+  const assets = parseCSV();
+  const metrics = calculateMetrics(assets);
+  const migrationProgress = Math.round((metrics.postQuantumAssets / metrics.totalAssets) * 100);
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -39,27 +43,27 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricsCard
             title="Quantum Threat Level"
-            value="75%"
+            value={`${metrics.averageRiskScore}%`}
             icon={AlertTriangle}
             trend={{ value: 12, isPositive: false }}
             valueClassName="text-destructive"
           />
           <MetricsCard
             title="Total Assets Scanned"
-            value="1,247"
+            value={metrics.totalAssets.toLocaleString()}
             icon={Database}
             trend={{ value: 8, isPositive: true }}
           />
           <MetricsCard
             title="Vulnerable Assets"
-            value="184"
+            value={metrics.vulnerableAssets}
             icon={Lock}
             trend={{ value: 15, isPositive: false }}
             valueClassName="text-warning"
           />
           <MetricsCard
             title="Migration Progress"
-            value="32%"
+            value={`${migrationProgress}%`}
             icon={TrendingUp}
             trend={{ value: 23, isPositive: true }}
             valueClassName="text-primary"

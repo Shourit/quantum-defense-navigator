@@ -2,53 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Zap, Clock, CheckCircle2 } from "lucide-react";
-
-interface MigrationTask {
-  id: string;
-  asset: string;
-  priority: number;
-  progress: number;
-  aiRecommendation: string;
-  status: "pending" | "in-progress" | "completed";
-}
-
-const tasks: MigrationTask[] = [
-  {
-    id: "1",
-    asset: "VPN Gateway Primary",
-    priority: 1,
-    progress: 0,
-    aiRecommendation: "Immediate migration to Kyber-1024 recommended",
-    status: "pending",
-  },
-  {
-    id: "2",
-    asset: "PKI Root CA",
-    priority: 2,
-    progress: 0,
-    aiRecommendation: "Critical path - schedule maintenance window",
-    status: "pending",
-  },
-  {
-    id: "3",
-    asset: "TLS Certificate (*.company.com)",
-    priority: 3,
-    progress: 65,
-    aiRecommendation: "Migration in progress - ETA 2 hours",
-    status: "in-progress",
-  },
-  {
-    id: "4",
-    asset: "SSH Key Infrastructure",
-    priority: 4,
-    progress: 0,
-    aiRecommendation: "Schedule after PKI migration",
-    status: "pending",
-  },
-];
+import { Zap, Clock, CheckCircle2, ArrowRight } from "lucide-react";
+import { parseCSV, getMigrationTasks } from "@/utils/dataParser";
 
 export const MigrationQueue = () => {
+  const assets = parseCSV();
+  const tasks = getMigrationTasks(assets);
   return (
     <Card className="col-span-2 quantum-glow border-primary/20">
       <CardHeader>
@@ -58,7 +17,7 @@ export const MigrationQueue = () => {
             AI Migration Orchestrator
           </CardTitle>
           <Badge variant="outline" className="text-primary border-primary">
-            4 Pending
+            {tasks.length} Pending
           </Badge>
         </div>
       </CardHeader>
@@ -69,22 +28,22 @@ export const MigrationQueue = () => {
             className="p-4 rounded-lg bg-card/50 border border-border space-y-3"
           >
             <div className="flex items-start justify-between">
-              <div className="space-y-1">
+              <div className="space-y-1 flex-1">
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center text-xs">
+                  <Badge variant={task.priority === "critical" ? "destructive" : "warning"} className="text-xs">
                     {task.priority}
                   </Badge>
-                  <h4 className="font-semibold text-sm">{task.asset}</h4>
+                  <h4 className="font-semibold text-sm">{task.name}</h4>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="font-mono">{task.currentAlgorithm}</span>
+                  <ArrowRight className="h-3 w-3" />
+                  <span className="font-mono text-success">{task.targetAlgorithm}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {task.aiRecommendation}
+                  {task.type} • Est. {task.estimatedTime}
                 </p>
               </div>
-              {task.status === "in-progress" ? (
-                <Clock className="h-4 w-4 text-warning animate-pulse" />
-              ) : task.status === "completed" ? (
-                <CheckCircle2 className="h-4 w-4 text-success" />
-              ) : null}
             </div>
             {task.progress > 0 && (
               <div className="space-y-1">
@@ -95,11 +54,9 @@ export const MigrationQueue = () => {
                 <Progress value={task.progress} className="h-2" />
               </div>
             )}
-            {task.status === "pending" && (
-              <Button variant="outline" size="sm" className="w-full">
-                Start Migration
-              </Button>
-            )}
+            <Button variant="outline" size="sm" className="w-full">
+              Start Migration
+            </Button>
           </div>
         ))}
       </CardContent>

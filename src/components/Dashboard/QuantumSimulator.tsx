@@ -3,42 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Activity, AlertTriangle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-
-interface SimulationResult {
-  algorithm: string;
-  vulnerability: number;
-  breakTime: string;
-  severity: "critical" | "high" | "medium" | "low";
-}
-
-const results: SimulationResult[] = [
-  {
-    algorithm: "RSA-2048",
-    vulnerability: 95,
-    breakTime: "8 hours",
-    severity: "critical",
-  },
-  {
-    algorithm: "ECDSA P-256",
-    vulnerability: 87,
-    breakTime: "2 days",
-    severity: "high",
-  },
-  {
-    algorithm: "RSA-3072",
-    vulnerability: 78,
-    breakTime: "1 week",
-    severity: "high",
-  },
-  {
-    algorithm: "Kyber-768",
-    vulnerability: 12,
-    breakTime: ">1000 years",
-    severity: "low",
-  },
-];
+import { parseCSV, getQuantumSimulationData } from "@/utils/dataParser";
 
 export const QuantumSimulator = () => {
+  const assets = parseCSV();
+  const results = getQuantumSimulationData(assets);
   return (
     <Card className="col-span-1 quantum-glow border-primary/20">
       <CardHeader>
@@ -56,50 +25,61 @@ export const QuantumSimulator = () => {
         </div>
 
         <div className="space-y-4">
-          {results.map((result, index) => (
-            <div
-              key={index}
-              className="space-y-2 p-3 rounded-lg bg-card/50 border border-border"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-mono">{result.algorithm}</span>
-                <Badge
-                  variant={
-                    result.severity === "critical"
-                      ? "destructive"
-                      : result.severity === "high"
-                      ? "warning"
-                      : result.severity === "medium"
-                      ? "secondary"
-                      : "success"
-                  }
-                  className="text-xs"
-                >
-                  {result.severity}
-                </Badge>
-              </div>
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Vulnerability</span>
-                  <span
-                    className={
-                      result.vulnerability > 80
-                        ? "text-destructive"
-                        : result.vulnerability > 50
-                        ? "text-warning"
-                        : "text-success"
+          {results.map((result, index) => {
+            const vulnerability = Math.round(result.breakTime);
+            const getSeverity = (time: number) => {
+              if (time >= 90) return "critical";
+              if (time >= 70) return "high";
+              if (time >= 50) return "medium";
+              return "low";
+            };
+            const severity = getSeverity(vulnerability);
+            
+            return (
+              <div
+                key={index}
+                className="space-y-2 p-3 rounded-lg bg-card/50 border border-border"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-mono">{result.algorithm}</span>
+                  <Badge
+                    variant={
+                      severity === "critical"
+                        ? "destructive"
+                        : severity === "high"
+                        ? "warning"
+                        : severity === "medium"
+                        ? "secondary"
+                        : "success"
                     }
+                    className="text-xs"
                   >
-                    {result.vulnerability}%
-                  </span>
+                    {severity}
+                  </Badge>
                 </div>
-                <Progress value={result.vulnerability} className="h-1.5" />
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Vulnerability</span>
+                    <span
+                      className={
+                        vulnerability > 80
+                          ? "text-destructive"
+                          : vulnerability > 50
+                          ? "text-warning"
+                          : "text-success"
+                      }
+                    >
+                      {vulnerability}%
+                    </span>
+                  </div>
+                  <Progress value={vulnerability} className="h-1.5" />
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Confidence: <span className="text-foreground">{result.confidence.toFixed(1)}%</span>
+                </div>
               </div>
-              <div className="text-xs text-muted-foreground">
-                Est. break time: <span className="text-foreground">{result.breakTime}</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <Button variant="outline" size="sm" className="w-full">

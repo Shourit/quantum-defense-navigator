@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,25 +8,18 @@ import {
   Area,
   AreaChart,
 } from "recharts";
-
-const data = [
-  { time: "00:00", threat: 45, assets: 82 },
-  { time: "04:00", threat: 52, assets: 78 },
-  { time: "08:00", threat: 61, assets: 75 },
-  { time: "12:00", threat: 58, assets: 80 },
-  { time: "16:00", threat: 67, assets: 73 },
-  { time: "20:00", threat: 71, assets: 70 },
-  { time: "24:00", threat: 75, assets: 68 },
-];
+import { parseCSV, getRiskChartData } from "@/utils/dataParser";
 
 export const RiskChart = () => {
+  const assets = parseCSV();
+  const data = getRiskChartData(assets);
   return (
     <Card className="col-span-2 quantum-glow border-primary/20">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          Quantum Threat Timeline
+          Asset Migration Timeline
           <span className="text-xs text-muted-foreground font-normal">
-            (24 Hour Window)
+            (7 Day Trend)
           </span>
         </CardTitle>
       </CardHeader>
@@ -47,7 +38,7 @@ export const RiskChart = () => {
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis
-              dataKey="time"
+              dataKey="date"
               stroke="hsl(var(--muted-foreground))"
               fontSize={12}
             />
@@ -61,15 +52,22 @@ export const RiskChart = () => {
             />
             <Area
               type="monotone"
-              dataKey="threat"
+              dataKey="vulnerable"
               stroke="hsl(var(--destructive))"
               fill="url(#threatGradient)"
               strokeWidth={2}
             />
             <Area
               type="monotone"
-              dataKey="assets"
-              stroke="hsl(var(--primary))"
+              dataKey="migrating"
+              stroke="hsl(var(--warning))"
+              fill="url(#assetGradient)"
+              strokeWidth={2}
+            />
+            <Area
+              type="monotone"
+              dataKey="secure"
+              stroke="hsl(var(--success))"
               fill="url(#assetGradient)"
               strokeWidth={2}
             />
@@ -78,11 +76,15 @@ export const RiskChart = () => {
         <div className="flex justify-center gap-6 mt-4 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-destructive" />
-            <span className="text-muted-foreground">Threat Level</span>
+            <span className="text-muted-foreground">Vulnerable</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-primary" />
-            <span className="text-muted-foreground">Secure Assets</span>
+            <div className="w-3 h-3 rounded-full bg-warning" />
+            <span className="text-muted-foreground">Migrating</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-success" />
+            <span className="text-muted-foreground">Secure</span>
           </div>
         </div>
       </CardContent>

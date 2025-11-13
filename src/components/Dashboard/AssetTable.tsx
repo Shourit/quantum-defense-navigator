@@ -8,60 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { parseCSV, getRiskLevel, getStatusFromLegacy } from "@/utils/dataParser";
 
-interface Asset {
-  id: string;
-  name: string;
-  type: string;
-  risk: "critical" | "high" | "medium" | "low";
-  status: "vulnerable" | "migrating" | "secure";
-  algorithm: string;
-}
-
-const assets: Asset[] = [
-  {
-    id: "1",
-    name: "VPN Gateway Primary",
-    type: "Network",
-    risk: "critical",
-    status: "vulnerable",
-    algorithm: "RSA-2048",
-  },
-  {
-    id: "2",
-    name: "TLS Certificate (*.company.com)",
-    type: "Certificate",
-    risk: "high",
-    status: "migrating",
-    algorithm: "ECDSA P-256",
-  },
-  {
-    id: "3",
-    name: "SSH Key Infrastructure",
-    type: "Authentication",
-    risk: "high",
-    status: "vulnerable",
-    algorithm: "RSA-3072",
-  },
-  {
-    id: "4",
-    name: "PKI Root CA",
-    type: "Certificate",
-    risk: "critical",
-    status: "vulnerable",
-    algorithm: "RSA-2048",
-  },
-  {
-    id: "5",
-    name: "API Gateway Cert",
-    type: "Certificate",
-    risk: "medium",
-    status: "secure",
-    algorithm: "Kyber-768",
-  },
-];
-
-const getRiskColor = (risk: Asset["risk"]) => {
+const getRiskColor = (risk: "critical" | "high" | "medium" | "low") => {
   switch (risk) {
     case "critical":
       return "destructive";
@@ -74,7 +23,7 @@ const getRiskColor = (risk: Asset["risk"]) => {
   }
 };
 
-const getStatusColor = (status: Asset["status"]) => {
+const getStatusColor = (status: "vulnerable" | "migrating" | "secure") => {
   switch (status) {
     case "vulnerable":
       return "destructive";
@@ -86,6 +35,8 @@ const getStatusColor = (status: Asset["status"]) => {
 };
 
 export const AssetTable = () => {
+  const allAssets = parseCSV();
+  const displayAssets = allAssets.slice(0, 12);
   return (
     <Card className="col-span-3 quantum-glow border-primary/20">
       <CardHeader>
@@ -103,23 +54,28 @@ export const AssetTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {assets.map((asset) => (
-              <TableRow key={asset.id} className="border-border">
-                <TableCell className="font-medium">{asset.name}</TableCell>
-                <TableCell className="text-muted-foreground">{asset.type}</TableCell>
-                <TableCell className="font-mono text-sm">{asset.algorithm}</TableCell>
-                <TableCell>
-                  <Badge variant={getRiskColor(asset.risk)} className="uppercase">
-                    {asset.risk}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={getStatusColor(asset.status)} className="uppercase">
-                    {asset.status}
-                  </Badge>
-                </TableCell>
-              </TableRow>
-            ))}
+            {displayAssets.map((asset) => {
+              const risk = getRiskLevel(asset.quantum_risk_score);
+              const status = getStatusFromLegacy(asset.current_status);
+              
+              return (
+                <TableRow key={asset.asset_id} className="border-border">
+                  <TableCell className="font-medium">{asset.asset_id}</TableCell>
+                  <TableCell className="text-muted-foreground">{asset.type}</TableCell>
+                  <TableCell className="font-mono text-sm">{asset.encryption_algorithm}</TableCell>
+                  <TableCell>
+                    <Badge variant={getRiskColor(risk)} className="uppercase">
+                      {risk}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={getStatusColor(status)} className="uppercase">
+                      {status}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </CardContent>
