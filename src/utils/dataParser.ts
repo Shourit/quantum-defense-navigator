@@ -10,7 +10,26 @@ export interface Asset {
   quantum_risk_score: number;
   criticality: 'high' | 'medium' | 'low';
   current_status: 'legacy' | 'post-quantum' | 'migrating';
-  migration_priority?: string;
+  migration_priority: string;
+  quantum_vulnerability_score: number;
+  estimated_time_to_qsafe: number;
+  migration_time: number;
+  automation_status: 'success' | 'manual';
+  latency_before: number;
+  latency_after: number;
+  cpu_usage_before: number;
+  cpu_usage_after: number;
+  memory_usage_before: number;
+  memory_usage_after: number;
+  throughput_before: number;
+  throughput_after: number;
+  compliance_score: number;
+  cert_valid: 'valid' | 'expired';
+  encryption_strength_index: number;
+  predicted_migration_risk: number;
+  predicted_latency: number;
+  predicted_cpu: number;
+  predicted_memory: number;
 }
 
 export interface DashboardMetrics {
@@ -22,6 +41,18 @@ export interface DashboardMetrics {
   highRiskAssets: number;
   mediumRiskAssets: number;
   lowRiskAssets: number;
+  avgQuantumVulnerability: number;
+  avgTimeToQSafe: number;
+  avgMigrationTime: number;
+  automationSuccessRate: number;
+  avgLatencyImpact: number;
+  avgCpuImpact: number;
+  avgMemoryImpact: number;
+  avgThroughputImpact: number;
+  avgComplianceScore: number;
+  expiredCerts: number;
+  avgEncryptionStrength: number;
+  avgPredictedMigrationRisk: number;
 }
 
 export const parseCSV = (): Asset[] => {
@@ -34,10 +65,13 @@ export const parseCSV = (): Asset[] => {
     
     headers.forEach((header, index) => {
       const value = values[index]?.trim();
-      if (header === 'key_length') {
-        asset[header] = parseInt(value);
-      } else if (header === 'quantum_risk_score') {
-        asset[header] = parseFloat(value);
+      if (['key_length', 'quantum_vulnerability_score', 'estimated_time_to_qsafe', 'migration_time', 
+           'latency_before', 'latency_after', 'cpu_usage_before', 'cpu_usage_after',
+           'memory_usage_before', 'memory_usage_after', 'throughput_before', 'throughput_after',
+           'compliance_score', 'encryption_strength_index', 'predicted_latency', 'predicted_cpu', 'predicted_memory'].includes(header)) {
+        asset[header] = parseInt(value) || 0;
+      } else if (['quantum_risk_score', 'predicted_migration_risk'].includes(header)) {
+        asset[header] = parseFloat(value) || 0;
       } else {
         asset[header] = value;
       }
@@ -59,6 +93,21 @@ export const calculateMetrics = (assets: Asset[]): DashboardMetrics => {
   const mediumRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.6 && a.quantum_risk_score < 0.8).length;
   const lowRiskAssets = assets.filter(a => a.quantum_risk_score < 0.6).length;
   
+  const avgQuantumVulnerability = Math.round(assets.reduce((sum, a) => sum + a.quantum_vulnerability_score, 0) / assets.length);
+  const avgTimeToQSafe = Math.round(assets.filter(a => a.estimated_time_to_qsafe > 0).reduce((sum, a) => sum + a.estimated_time_to_qsafe, 0) / assets.filter(a => a.estimated_time_to_qsafe > 0).length || 0);
+  const avgMigrationTime = Math.round(assets.filter(a => a.migration_time > 0).reduce((sum, a) => sum + a.migration_time, 0) / assets.filter(a => a.migration_time > 0).length || 0);
+  const automationSuccessRate = Math.round((assets.filter(a => a.automation_status === 'success').length / assets.length) * 100);
+  
+  const avgLatencyImpact = Math.round(assets.reduce((sum, a) => sum + ((a.latency_after - a.latency_before) / a.latency_before * 100), 0) / assets.length);
+  const avgCpuImpact = Math.round(assets.reduce((sum, a) => sum + ((a.cpu_usage_after - a.cpu_usage_before) / a.cpu_usage_before * 100), 0) / assets.length);
+  const avgMemoryImpact = Math.round(assets.reduce((sum, a) => sum + ((a.memory_usage_after - a.memory_usage_before) / a.memory_usage_before * 100), 0) / assets.length);
+  const avgThroughputImpact = Math.round(assets.reduce((sum, a) => sum + ((a.throughput_after - a.throughput_before) / a.throughput_before * 100), 0) / assets.length);
+  
+  const avgComplianceScore = Math.round(assets.reduce((sum, a) => sum + a.compliance_score, 0) / assets.length);
+  const expiredCerts = assets.filter(a => a.cert_valid === 'expired').length;
+  const avgEncryptionStrength = Math.round(assets.reduce((sum, a) => sum + a.encryption_strength_index, 0) / assets.length);
+  const avgPredictedMigrationRisk = Math.round(assets.reduce((sum, a) => sum + a.predicted_migration_risk, 0) / assets.length * 100);
+  
   return {
     totalAssets: assets.length,
     vulnerableAssets,
@@ -68,6 +117,18 @@ export const calculateMetrics = (assets: Asset[]): DashboardMetrics => {
     highRiskAssets,
     mediumRiskAssets,
     lowRiskAssets,
+    avgQuantumVulnerability,
+    avgTimeToQSafe,
+    avgMigrationTime,
+    automationSuccessRate,
+    avgLatencyImpact,
+    avgCpuImpact,
+    avgMemoryImpact,
+    avgThroughputImpact,
+    avgComplianceScore,
+    expiredCerts,
+    avgEncryptionStrength,
+    avgPredictedMigrationRisk,
   };
 };
 

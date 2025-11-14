@@ -1,101 +1,101 @@
-asset_id,type,encryption_algorithm,key_length,last_rotation_date,usage_frequency,quantum_risk_score,criticality,current_status,migration_priority
-vpn-001,VPN Endpoint,RSA-2048,2048,2024-01-15,high,0.85,high,legacy,
-tls-cert-002,TLS Certificate,ECDSA-256,256,2023-11-20,medium,0.75,medium,legacy,
-fw-update-003,Firmware Update Server,AES-256,256,2025-05-10,low,0.40,high,post-quantum,
-ssh-key-004,SSH Key,RSA-4096,4096,2024-06-30,high,0.90,high,legacy,
-backup-005,Encrypted Backup,ChaCha20,256,2024-12-01,medium,0.60,medium,legacy,
-vpn-006,VPN Endpoint,ECC-256,256,2023-12-05,high,0.80,high,legacy,
-tls-cert-007,TLS Certificate,RSA-3072,3072,2024-03-22,medium,0.78,medium,legacy,
-fw-update-008,Firmware Update Server,AES-192,192,2025-01-15,low,0.50,high,post-quantum,
-ssh-key-009,SSH Key,ECC-384,384,2024-08-10,high,0.88,high,legacy,
-backup-010,Encrypted Backup,XChaCha20,256,2025-02-18,medium,0.55,medium,legacy,
-vpn-011,VPN Endpoint,RSA-2048,2048,2024-02-21,high,0.82,high,legacy,
-tls-cert-012,TLS Certificate,ECDSA-384,384,2023-10-30,medium,0.73,medium,legacy,
-fw-update-013,Firmware Update Server,AES-256,256,2025-06-20,low,0.45,high,post-quantum,
-ssh-key-014,SSH Key,RSA-2048,2048,2024-07-01,high,0.87,high,legacy,
-backup-015,Encrypted Backup,ChaCha20,256,2024-11-25,medium,0.62,medium,legacy,
-vpn-016,VPN Endpoint,ECC-256,256,2023-09-15,high,0.79,high,legacy,
-tls-cert-017,TLS Certificate,RSA-4096,4096,2024-04-18,medium,0.76,medium,legacy,
-fw-update-018,Firmware Update Server,AES-256,256,2025-03-05,low,0.42,high,post-quantum,
-ssh-key-019,SSH Key,ECC-521,521,2024-09-11,high,0.91,high,legacy,
-backup-020,Encrypted Backup,XChaCha20,256,2025-01-29,medium,0.58,medium,legacy,
-vpn-021,VPN Endpoint,RSA-3072,3072,2024-01-10,high,0.83,high,legacy,
-tls-cert-022,TLS Certificate,ECDSA-256,256,2023-12-19,medium,0.74,medium,legacy,
-fw-update-023,Firmware Update Server,AES-192,192,2025-04-08,low,0.48,high,post-quantum,
-ssh-key-024,SSH Key,RSA-2048,2048,2024-05-26,high,0.89,high,legacy,
-backup-025,Encrypted Backup,ChaCha20,256,2024-10-13,medium,0.61,medium,legacy,
-vpn-026,VPN Endpoint,ECC-384,384,2023-11-27,high,0.81,high,legacy,
-tls-cert-027,TLS Certificate,RSA-2048,2048,2024-03-14,medium,0.77,medium,legacy,
-fw-update-028,Firmware Update Server,AES-256,256,2025-02-22,low,0.43,high,post-quantum,
-ssh-key-029,SSH Key,ECC-256,256,2024-06-05,high,0.88,high,legacy,
-backup-030,Encrypted Backup,XChaCha20,256,2025-03-09,medium,0.56,medium,legacy,
-vpn-031,VPN Endpoint,RSA-2048,2048,2024-02-15,high,0.84,high,legacy,
-tls-cert-032,TLS Certificate,ECDSA-384,384,2023-09-28,medium,0.75,medium,legacy,
-fw-update-033,Firmware Update Server,AES-192,192,2025-05-12,low,0.46,high,post-quantum,
-ssh-key-034,SSH Key,RSA-4096,4096,2024-07-23,high,0.92,high,legacy,
-backup-035,Encrypted Backup,ChaCha20,256,2024-12-17,medium,0.63,medium,legacy,
-vpn-036,VPN Endpoint,ECC-256,256,2023-10-10,high,0.80,high,legacy,
-tls-cert-037,TLS Certificate,RSA-3072,3072,2024-04-05,medium,0.78,medium,legacy,
-fw-update-038,Firmware Update Server,AES-256,256,2025-01-30,low,0.44,high,post-quantum,
-ssh-key-039,SSH Key,ECC-521,521,2024-08-18,high,0.90,high,legacy,
-backup-040,Encrypted Backup,XChaCha20,256,2025-02-13,medium,0.57,medium,legacy,
-vpn-041,VPN Endpoint,RSA-2048,2048,2024-03-12,high,0.85,high,legacy,
-tls-cert-042,TLS Certificate,ECDSA-256,256,2023-11-01,medium,0.73,medium,legacy,
-fw-update-043,Firmware Update Server,AES-192,192,2025-06-01,low,0.47,high,post-quantum,
-ssh-key-044,SSH Key,RSA-2048,2048,2024-05-14,high,0.88,high,legacy,
-backup-045,Encrypted Backup,ChaCha20,256,2024-10-29,medium,0.60,medium,legacy,
-vpn-046,VPN Endpoint,ECC-384,384,2023-12-08,high,0.82,high,legacy,
-tls-cert-047,TLS Certificate,RSA-2048,2048,2024-02-25,medium,0.76,medium,legacy,
-fw-update-048,Firmware Update Server,AES-256,256,2025-04-15,low,0.45,high,post-quantum,
-ssh-key-049,SSH Key,ECC-256,256,2024-09-20,high,0.89,high,legacy,
-backup-050,Encrypted Backup,XChaCha20,256,2025-01-05,medium,0.59,medium,legacy,
-vpn-051,VPN Endpoint,RSA-3072,3072,2024-01-20,high,0.83,high,legacy,
-tls-cert-052,TLS Certificate,ECDSA-384,384,2023-10-05,medium,0.74,medium,legacy,
-fw-update-053,Firmware Update Server,AES-192,192,2025-03-20,low,0.41,high,post-quantum,
-ssh-key-054,SSH Key,RSA-2048,2048,2024-06-18,high,0.90,high,legacy,
-backup-055,Encrypted Backup,ChaCha20,256,2024-11-11,medium,0.62,medium,legacy,
-vpn-056,VPN Endpoint,ECC-256,256,2023-09-30,high,0.81,high,legacy,
-tls-cert-057,TLS Certificate,RSA-4096,4096,2024-04-21,medium,0.77,medium,legacy,
-fw-update-058,Firmware Update Server,AES-256,256,2025-02-25,low,0.43,high,post-quantum,
-ssh-key-059,SSH Key,ECC-521,521,2024-08-02,high,0.91,high,legacy,
-backup-060,Encrypted Backup,XChaCha20,256,2025-03-22,medium,0.56,medium,legacy,
-vpn-061,VPN Endpoint,RSA-2048,2048,2024-02-28,high,0.82,high,legacy,
-tls-cert-062,TLS Certificate,ECDSA-256,256,2023-11-10,medium,0.75,medium,legacy,
-fw-update-063,Firmware Update Server,AES-192,192,2025-01-18,low,0.48,high,post-quantum,
-ssh-key-064,SSH Key,RSA-4096,4096,2024-07-11,high,0.89,high,legacy,
-backup-065,Encrypted Backup,ChaCha20,256,2024-12-29,medium,0.63,medium,legacy,
-vpn-066,VPN Endpoint,ECC-384,384,2023-10-25,high,0.79,high,legacy,
-tls-cert-067,TLS Certificate,RSA-2048,2048,2024-03-29,medium,0.74,medium,legacy,
-fw-update-068,Firmware Update Server,AES-256,256,2025-05-01,low,0.44,high,post-quantum,
-ssh-key-069,SSH Key,ECC-256,256,2024-09-15,high,0.88,high,legacy,
-backup-070,Encrypted Backup,XChaCha20,256,2025-02-27,medium,0.58,medium,legacy,
-vpn-071,VPN Endpoint,RSA-3072,3072,2024-01-05,high,0.80,high,legacy,
-tls-cert-072,TLS Certificate,ECDSA-384,384,2023-12-12,medium,0.73,medium,legacy,
-fw-update-073,Firmware Update Server,AES-192,192,2025-03-12,low,0.45,high,post-quantum,
-ssh-key-074,SSH Key,RSA-2048,2048,2024-06-03,high,0.91,high,legacy,
-backup-075,Encrypted Backup,ChaCha20,256,2024-11-06,medium,0.61,medium,legacy,
-vpn-076,VPN Endpoint,ECC-256,256,2023-09-18,high,0.78,high,legacy,
-tls-cert-077,TLS Certificate,RSA-2048,2048,2024-04-11,medium,0.77,medium,legacy,
-fw-update-078,Firmware Update Server,AES-256,256,2025-01-23,low,0.42,high,post-quantum,
-ssh-key-079,SSH Key,ECC-521,521,2024-08-27,high,0.90,high,legacy,
-backup-080,Encrypted Backup,XChaCha20,256,2025-03-30,medium,0.57,medium,legacy,
-vpn-081,VPN Endpoint,RSA-2048,2048,2024-02-07,high,0.83,high,legacy,
-tls-cert-082,TLS Certificate,ECDSA-256,256,2023-10-15,medium,0.74,medium,legacy,
-fw-update-083,Firmware Update Server,AES-192,192,2025-06-05,low,0.46,high,post-quantum,
-ssh-key-084,SSH Key,RSA-4096,4096,2024-07-27,high,0.88,high,legacy,
-backup-085,Encrypted Backup,ChaCha20,256,2024-12-21,medium,0.60,medium,legacy,
-vpn-086,VPN Endpoint,ECC-384,384,2023-11-03,high,0.81,high,legacy,
-tls-cert-087,TLS Certificate,RSA-3072,3072,2024-03-02,medium,0.76,medium,legacy,
-fw-update-088,Firmware Update Server,AES-256,256,2025-02-11,low,0.44,high,post-quantum,
-ssh-key-089,SSH Key,ECC-256,256,2024-09-08,high,0.89,high,legacy,
-backup-090,Encrypted Backup,XChaCha20,256,2025-01-22,medium,0.59,medium,legacy,
-vpn-091,VPN Endpoint,RSA-2048,2048,2024-01-28,high,0.84,high,legacy,
-tls-cert-092,TLS Certificate,ECDSA-384,384,2023-11-22,medium,0.75,medium,legacy,
-fw-update-093,Firmware Update Server,AES-192,192,2025-04-06,low,0.45,high,post-quantum,
-ssh-key-094,SSH Key,RSA-2048,2048,2024-06-14,high,0.87,high,legacy,
-backup-095,Encrypted Backup,ChaCha20,256,2024-10-19,medium,0.61,medium,legacy,
-vpn-096,VPN Endpoint,ECC-256,256,2023-09-10,high,0.79,high,legacy,
-tls-cert-097,TLS Certificate,RSA-2048,2048,2024-03-17,medium,0.73,medium,legacy,
-fw-update-098,Firmware Update Server,AES-256,256,2025-05-22,low,0.43,high,post-quantum,
-ssh-key-099,SSH Key,ECC-521,521,2024-08-24,high,0.91,high,legacy,
-backup-100,Encrypted Backup,XChaCha20,256,2025-02-05,medium,0.58,medium,legacy,
+asset_id,type,encryption_algorithm,key_length,last_rotation_date,usage_frequency,quantum_risk_score,criticality,current_status,migration_priority,quantum_vulnerability_score,estimated_time_to_qsafe,migration_time,automation_status,latency_before,latency_after,cpu_usage_before,cpu_usage_after,memory_usage_before,memory_usage_after,throughput_before,throughput_after,compliance_score,cert_valid,encryption_strength_index,predicted_migration_risk,predicted_latency,predicted_cpu,predicted_memory
+vpn-001,VPN Endpoint,RSA-2048,2048,15-01-2024,high,0.87,high,legacy,urgent,95,210,48,success,20,31,21,28,512,526,850,840,77,valid,74,0.91,29,27,518
+tls-cert-002,TLS Certificate,ECDSA-256,256,20-11-2023,medium,0.63,medium,legacy,high,68,183,30,manual,14,20,12,16,236,244,910,880,84,expired,70,0.61,19,14,238
+fw-update-003,Firmware Update Server,AES-256,256,10-05-2025,low,0.28,high,post-quantum,low,18,0,0,success,10,11,6,9,128,130,980,973,98,valid,92,0.13,11,9,129
+ssh-key-004,SSH Key,RSA-4096,4096,30-06-2024,high,0.93,high,legacy,urgent,97,310,57,success,25,39,29,36,630,650,900,895,74,valid,75,0.97,32,35,636
+backup-005,Encrypted Backup,ChaCha20,256,01-12-2024,medium,0.41,medium,legacy,medium,29,102,23,manual,15,19,11,14,2040,2042,690,677,88,valid,82,0.21,17,14,2045
+vpn-006,VPN Endpoint,Kyber-512,1024,18-03-2025,high,0.08,high,post-quantum,none,6,0,0,success,21,21,22,22,521,520,850,850,100,valid,98,0.04,21,21,521
+tls-cert-007,TLS Certificate,CRYSTALS-Kyber,768,04-03-2025,medium,0.13,medium,post-quantum,none,12,0,0,success,11,11,10,11,230,230,899,897,99,valid,97,0.09,11,10,230
+fw-update-008,Firmware Update Server,AES-192,192,11-08-2025,low,0.12,medium,post-quantum,none,9,0,0,success,10,10,6,6,128,130,985,983,95,valid,91,0.08,10,6,128
+ssh-key-009,SSH Key,Dilithium-2,2048,15-04-2025,high,0.07,medium,post-quantum,none,6,0,0,success,25,25,28,28,633,633,910,910,100,valid,99,0.03,25,28,633
+backup-010,Encrypted Backup,Picnic-L1,2048,14-07-2025,medium,0.03,medium,post-quantum,none,2,0,0,success,15,15,12,12,2050,2050,695,695,96,valid,97,0.01,15,12,2050
+vpn-011,VPN Endpoint,RSA-3072,3072,12-03-2024,high,0.86,high,legacy,high,87,240,51,manual,21,33,22,29,525,538,800,790,75,valid,72,0.88,31,28,529
+tls-cert-012,TLS Certificate,ECDSA-384,384,07-06-2023,medium,0.65,medium,legacy,medium,65,180,33,success,17,23,18,21,232,240,908,877,81,expired,75,0.59,21,18,236
+fw-update-013,Firmware Update Server,AES-256,256,10-09-2025,low,0.32,high,post-quantum,none,20,0,0,success,12,14,8,10,140,142,983,975,96,valid,90,0.14,13,9,141
+ssh-key-014,SSH Key,Kyber-1024,2048,30-07-2025,high,0.04,high,post-quantum,none,3,0,0,success,22,22,25,25,642,642,910,909,100,valid,99,0.02,22,25,642
+backup-015,Encrypted Backup,ChaCha20,256,27-12-2025,medium,0.36,medium,legacy,medium,40,93,19,manual,13,16,13,16,2012,2014,705,687,85,valid,81,0.18,15,16,2013
+vpn-016,VPN Endpoint,RSA-2048,2048,26-11-2023,high,0.82,high,legacy,high,89,185,37,manual,19,27,20,24,507,516,820,810,77,valid,73,0.79,26,23,510
+tls-cert-017,TLS Certificate,CRYSTALS-Kyber,768,30-05-2025,medium,0.11,medium,post-quantum,none,9,0,0,success,10,10,10,10,228,228,899,898,99,valid,96,0.07,10,10,229
+fw-update-018,Firmware Update Server,AES-256,256,10-10-2025,low,0.16,high,post-quantum,none,12,0,0,success,10,11,7,8,132,133,985,981,97,valid,94,0.09,12,8,134
+ssh-key-019,SSH Key,RSA-4096,4096,02-05-2024,high,0.91,high,legacy,urgent,96,220,44,success,22,35,27,33,640,655,897,886,72,valid,75,0.93,33,36,646
+backup-020,Encrypted Backup,Picnic-L1,2048,22-08-2025,medium,0.06,medium,post-quantum,none,4,0,0,success,14,14,10,11,2074,2074,692,689,97,valid,98,0.03,14,11,2075
+vpn-021,VPN Endpoint,ECC-384,384,03-06-2023,high,0.85,high,legacy,urgent,93,215,50,success,20,33,20,29,530,542,830,822,76,valid,73,0.9,31,28,535
+tls-cert-022,TLS Certificate,RSA-2048,2048,27-10-2023,medium,0.6,medium,legacy,high,64,172,28,manual,15,21,11,17,240,248,911,882,83,expired,71,0.63,19,15,242
+fw-update-023,Firmware Update Server,AES-192,192,15-02-2025,low,0.29,high,post-quantum,low,18,0,0,success,11,12,7,9,126,130,975,964,98,valid,92,0.15,12,9,128
+ssh-key-024,SSH Key,RSA-4096,4096,18-10-2024,high,0.97,high,legacy,urgent,98,320,61,success,27,40,30,37,660,672,910,906,73,valid,76,0.98,35,37,670
+backup-025,Encrypted Backup,Dilithium-2,1024,01-11-2025,medium,0.08,medium,post-quantum,none,7,0,0,success,16,16,12,12,2048,2048,700,700,97,valid,94,0.03,16,12,2049
+vpn-026,VPN Endpoint,RSA-2048,2048,18-09-2023,high,0.8,high,legacy,high,88,197,43,manual,19,27,20,24,520,528,815,810,77,valid,74,0.82,25,25,523
+tls-cert-027,TLS Certificate,CRYSTALS-Kyber,768,11-07-2025,medium,0.1,medium,post-quantum,none,10,0,0,success,10,10,9,10,225,225,897,895,99,valid,97,0.06,10,10,226
+fw-update-028,Firmware Update Server,AES-256,256,05-10-2025,low,0.14,high,post-quantum,none,12,0,0,success,12,13,8,8,138,139,983,980,98,valid,95,0.08,12,8,138
+ssh-key-029,SSH Key,ECC-256,256,24-11-2024,high,0.77,high,legacy,high,80,140,29,manual,23,30,18,22,624,632,912,888,80,valid,78,0.71,28,22,629
+backup-030,Encrypted Backup,Picnic-L1,2048,26-08-2025,medium,0.09,medium,post-quantum,none,8,0,0,success,14,15,12,12,2072,2073,698,692,97,valid,97,0.04,15,12,2072
+vpn-031,VPN Endpoint,RSA-3072,3072,03-04-2024,high,0.88,high,legacy,urgent,96,250,58,success,22,35,23,31,555,570,849,845,80,valid,76,0.94,31,28,558
+tls-cert-032,TLS Certificate,ECDSA-256,256,01-11-2023,medium,0.67,medium,legacy,high,70,165,26,manual,16,22,13,16,238,245,912,881,82,expired,73,0.65,20,17,239
+fw-update-033,Firmware Update Server,AES-192,192,22-03-2025,low,0.26,high,post-quantum,none,18,0,0,success,10,12,8,9,129,132,978,970,97,valid,93,0.12,12,9,130
+ssh-key-034,SSH Key,RSA-4096,4096,24-10-2024,high,0.95,high,legacy,urgent,98,340,63,success,29,41,31,38,664,676,910,902,72,valid,75,0.99,37,39,669
+backup-035,Encrypted Backup,ChaCha20,256,15-12-2024,medium,0.39,medium,legacy,medium,33,87,19,manual,14,16,13,15,2018,2020,709,702,86,valid,81,0.19,16,15,2020
+vpn-036,VPN Endpoint,CRYSTALS-Kyber,768,06-10-2025,high,0.09,high,post-quantum,none,8,0,0,success,20,20,21,22,520,520,860,860,99,valid,98,0.04,20,22,522
+tls-cert-037,TLS Certificate,RSA-2048,2048,17-09-2023,medium,0.66,medium,legacy,high,72,158,24,manual,15,21,13,15,239,247,910,885,80,expired,74,0.66,18,15,244
+fw-update-038,Firmware Update Server,AES-256,256,31-08-2025,low,0.19,high,post-quantum,none,16,0,0,success,12,13,7,8,140,140,982,980,98,valid,95,0.09,13,8,142
+ssh-key-039,SSH Key,ECC-384,384,29-06-2024,high,0.84,high,legacy,high,79,155,37,manual,22,29,18,22,600,608,912,901,78,valid,79,0.72,28,23,606
+backup-040,Encrypted Backup,Picnic-L1,2048,14-11-2025,medium,0.11,medium,post-quantum,none,10,0,0,success,15,15,12,12,2070,2070,695,695,97,valid,97,0.04,15,12,2071
+vpn-041,VPN Endpoint,RSA-2048,2048,12-03-2024,high,0.85,high,legacy,urgent,93,215,50,success,20,33,20,29,530,542,830,822,76,valid,73,0.9,31,28,535
+tls-cert-042,TLS Certificate,RSA-3072,3072,27-10-2023,medium,0.6,medium,legacy,high,64,172,28,manual,15,21,11,17,240,248,911,882,83,expired,71,0.63,19,15,242
+fw-update-043,Firmware Update Server,AES-192,192,15-02-2025,low,0.29,high,post-quantum,low,18,0,0,success,11,12,7,9,126,130,975,964,98,valid,92,0.15,12,9,128
+ssh-key-044,SSH Key,RSA-4096,4096,18-10-2024,high,0.97,high,legacy,urgent,98,320,61,success,27,40,30,37,660,672,910,906,73,valid,76,0.98,35,37,670
+backup-045,Encrypted Backup,Dilithium-2,1024,01-11-2025,medium,0.08,medium,post-quantum,none,7,0,0,success,16,16,12,12,2048,2048,700,700,97,valid,94,0.03,16,12,2049
+vpn-046,VPN Endpoint,RSA-2048,2048,18-09-2023,high,0.8,high,legacy,high,88,197,43,manual,19,27,20,24,520,528,815,810,77,valid,74,0.82,25,25,523
+tls-cert-047,TLS Certificate,CRYSTALS-Kyber,768,11-07-2025,medium,0.1,medium,post-quantum,none,10,0,0,success,10,10,9,10,225,225,897,895,99,valid,97,0.06,10,10,226
+fw-update-048,Firmware Update Server,AES-256,256,05-10-2025,low,0.14,high,post-quantum,none,12,0,0,success,12,13,8,8,138,139,983,980,98,valid,95,0.08,12,8,138
+ssh-key-049,SSH Key,ECC-256,256,24-11-2024,high,0.77,high,legacy,high,80,140,29,manual,23,30,18,22,624,632,912,888,80,valid,78,0.71,28,22,629
+backup-050,Encrypted Backup,Picnic-L1,2048,26-08-2025,medium,0.09,medium,post-quantum,none,8,0,0,success,14,15,12,12,2072,2073,698,692,97,valid,97,0.04,15,12,2072
+vpn-051,VPN Endpoint,RSA-3072,3072,03-04-2024,high,0.88,high,legacy,urgent,96,250,58,success,22,35,23,31,555,570,849,845,80,valid,76,0.94,31,28,558
+tls-cert-052,TLS Certificate,ECDSA-256,256,01-11-2023,medium,0.67,medium,legacy,high,70,165,26,manual,16,22,13,16,238,245,912,881,82,expired,73,0.65,20,17,239
+fw-update-053,Firmware Update Server,AES-192,192,22-03-2025,low,0.26,high,post-quantum,none,18,0,0,success,10,12,8,9,129,132,978,970,97,valid,93,0.12,12,9,130
+ssh-key-054,SSH Key,RSA-4096,4096,24-10-2024,high,0.95,high,legacy,urgent,98,340,63,success,29,41,31,38,664,676,910,902,72,valid,75,0.99,37,39,669
+backup-055,Encrypted Backup,ChaCha20,256,15-12-2024,medium,0.39,medium,legacy,medium,33,87,19,manual,14,16,13,15,2018,2020,709,702,86,valid,81,0.19,16,15,2020
+vpn-056,VPN Endpoint,CRYSTALS-Kyber,768,06-10-2025,high,0.09,high,post-quantum,none,8,0,0,success,20,20,21,22,520,520,860,860,99,valid,98,0.04,20,22,522
+tls-cert-057,TLS Certificate,RSA-2048,2048,17-09-2023,medium,0.66,medium,legacy,high,72,158,24,manual,15,21,13,15,239,247,910,885,80,expired,74,0.66,18,15,244
+fw-update-058,Firmware Update Server,AES-256,256,31-08-2025,low,0.19,high,post-quantum,none,16,0,0,success,12,13,7,8,140,140,982,980,98,valid,95,0.09,13,8,142
+ssh-key-059,SSH Key,ECC-384,384,29-06-2024,high,0.84,high,legacy,high,79,155,37,manual,22,29,18,22,600,608,912,901,78,valid,79,0.72,28,23,606
+backup-060,Encrypted Backup,Picnic-L1,2048,14-11-2025,medium,0.11,medium,post-quantum,none,10,0,0,success,15,15,12,12,2070,2070,695,695,97,valid,97,0.04,15,12,2071
+vpn-061,VPN Endpoint,RSA-2048,2048,28-02-2024,high,0.82,high,legacy,urgent,90,200,45,success,21,29,18,25,520,535,840,830,78,valid,75,0.88,26,24,525
+tls-cert-062,TLS Certificate,ECDSA-256,256,10-11-2023,medium,0.74,medium,legacy,high,70,160,35,manual,17,22,13,17,230,240,920,900,82,expired,79,0.7,20,16,232
+fw-update-063,Firmware Update Server,AES-192,192,18-01-2025,low,0.45,high,post-quantum,low,40,0,0,success,13,15,8,10,130,135,985,980,95,valid,90,0.15,14,10,132
+ssh-key-064,SSH Key,RSA-4096,4096,11-07-2024,high,0.89,high,legacy,urgent,92,265,55,success,25,38,27,34,640,658,905,900,73,valid,77,0.92,31,33,645
+backup-065,Encrypted Backup,ChaCha20,256,29-12-2024,medium,0.63,medium,legacy,medium,50,110,25,manual,16,18,12,15,2020,2025,700,690,85,valid,82,0.25,18,15,2023
+vpn-066,VPN Endpoint,ECC-384,384,25-10-2023,high,0.79,high,legacy,high,82,185,40,success,18,25,15,21,510,525,860,845,79,valid,76,0.85,22,20,518
+tls-cert-067,TLS Certificate,RSA-2048,2048,29-03-2024,medium,0.74,medium,legacy,high,75,155,35,manual,17,23,15,19,228,235,915,900,81,expired,78,0.68,20,18,230
+fw-update-068,Firmware Update Server,AES-256,256,01-05-2025,low,0.44,high,post-quantum,low,38,0,0,success,12,14,9,10,138,140,985,970,94,valid,89,0.14,14,10,139
+ssh-key-069,SSH Key,ECC-256,256,15-09-2024,high,0.88,high,legacy,urgent,90,220,52,success,26,36,21,28,625,645,910,900,75,valid,80,0.9,33,29,630
+backup-070,Encrypted Backup,XChaCha20,256,27-02-2025,medium,0.58,medium,legacy,medium,55,100,22,manual,15,18,11,14,1990,2002,695,685,87,valid,83,0.23,16,14,1998
+vpn-071,VPN Endpoint,RSA-3072,3072,05-01-2024,high,0.8,high,legacy,high,85,190,39,success,20,28,19,25,530,535,845,835,77,valid,75,0.87,24,22,533
+tls-cert-072,TLS Certificate,ECDSA-384,384,12-12-2023,medium,0.73,medium,legacy,high,67,150,31,manual,14,22,12,17,225,232,913,895,80,expired,77,0.69,19,16,227
+fw-update-073,Firmware Update Server,AES-192,192,12-03-2025,low,0.45,high,post-quantum,low,40,0,0,success,13,16,9,11,130,133,980,973,95,valid,90,0.15,15,11,132
+ssh-key-074,SSH Key,RSA-2048,2048,03-06-2024,high,0.91,high,legacy,urgent,92,250,55,success,25,38,26,33,635,650,900,890,74,valid,79,0.94,31,27,638
+backup-075,Encrypted Backup,ChaCha20,256,06-11-2024,medium,0.61,medium,legacy,medium,48,105,23,manual,16,19,14,16,2020,2030,705,700,86,valid,80,0.21,17,15,2025
+vpn-076,VPN Endpoint,ECC-256,256,18-09-2023,high,0.78,high,legacy,high,81,180,42,success,18,26,16,22,512,525,850,840,79,valid,77,0.84,22,20,523
+tls-cert-077,TLS Certificate,RSA-2048,2048,11-04-2024,medium,0.77,medium,legacy,high,75,160,34,manual,16,22,14,18,230,235,908,900,82,expired,78,0.68,20,17,232
+fw-update-078,Firmware Update Server,AES-256,256,23-01-2025,low,0.42,high,post-quantum,low,37,0,0,success,11,13,8,10,135,140,983,978,94,valid,90,0.14,13,9,137
+ssh-key-079,SSH Key,ECC-521,521,27-08-2024,high,0.9,high,legacy,urgent,91,230,54,success,27,39,25,31,645,660,913,905,75,valid,78,0.91,33,29,648
+backup-080,Encrypted Backup,XChaCha20,256,30-03-2025,medium,0.57,medium,legacy,medium,54,95,22,manual,15,18,14,16,1995,2000,695,685,86,valid,82,0.22,17,15,1996
+vpn-081,VPN Endpoint,RSA-2048,2048,07-02-2024,high,0.83,high,legacy,urgent,91,198,44,success,21,30,20,27,520,535,845,835,79,valid,75,0.89,26,23,522
+tls-cert-082,TLS Certificate,ECDSA-256,256,15-10-2023,medium,0.74,medium,legacy,high,68,160,33,manual,18,23,14,18,238,245,910,890,83,expired,77,0.68,21,17,240
+fw-update-083,Firmware Update Server,AES-192,192,05-06-2025,low,0.47,high,post-quantum,low,38,0,0,success,12,14,9,10,140,142,975,970,95,valid,90,0.14,14,10,140
+ssh-key-084,SSH Key,RSA-4096,4096,27-07-2024,high,0.87,high,legacy,urgent,93,265,59,success,26,38,25,33,635,648,905,895,74,valid,78,0.91,32,27,640
+backup-085,Encrypted Backup,ChaCha20,256,21-12-2024,medium,0.6,medium,legacy,medium,50,110,25,manual,15,18,11,13,2018,2020,705,695,85,valid,80,0.21,16,14,2017
+vpn-086,VPN Endpoint,ECC-384,384,03-11-2023,high,0.81,high,legacy,high,83,183,41,success,20,27,17,21,515,530,855,845,78,valid,74,0.84,25,21,519
+tls-cert-087,TLS Certificate,RSA-3072,3072,02-03-2024,medium,0.75,medium,legacy,high,70,155,33,manual,18,23,15,18,230,237,908,900,81,expired,79,0.69,22,17,232
+fw-update-088,Firmware Update Server,AES-256,256,11-02-2025,low,0.44,high,post-quantum,low,37,0,0,success,13,15,9,10,135,138,985,980,94,valid,91,0.07,14,9,134
+ssh-key-089,SSH Key,ECC-256,256,08-09-2024,high,0.89,high,legacy,urgent,91,230,53,success,27,38,24,31,645,658,915,905,75,valid,79,0.9,34,28,640
+backup-090,Encrypted Backup,XChaCha20,256,22-01-2025,medium,0.59,medium,legacy,medium,53,95,22,manual,16,19,13,15,1998,2003,698,685,87,valid,83,0.22,18,16,1997
+vpn-091,VPN Endpoint,RSA-2048,2048,28-01-2024,high,0.84,high,legacy,high,88,190,42,success,20,28,21,26,525,535,850,840,77,valid,75,0.87,27,23,529
+tls-cert-092,TLS Certificate,ECDSA-384,384,22-11-2023,medium,0.75,medium,legacy,high,70,165,30,manual,18,24,14,17,238,245,910,895,83,expired,79,0.73,21,17,240
+fw-update-093,Firmware Update Server,AES-192,192,06-04-2025,low,0.45,high,post-quantum,low,38,0,0,success,13,15,9,10,140,142,980,975,93,valid,90,0.12,15,9,141
+ssh-key-094,SSH Key,RSA-2048,2048,14-06-2024,high,0.87,high,legacy,urgent,90,230,55,success,27,39,26,33,635,648,905,895,76,valid,79,0.89,32,29,640
+backup-095,Encrypted Backup,ChaCha20,256,19-10-2024,medium,0.61,medium,legacy,medium,50,105,24,manual,16,19,13,15,2015,2020,705,695,85,valid,82,0.21,17,14,2018
+vpn-096,VPN Endpoint,ECC-256,256,10-09-2023,high,0.79,high,legacy,high,81,180,43,success,19,27,17,22,510,525,855,845,78,valid,75,0.84,24,20,514
+tls-cert-097,TLS Certificate,RSA-2048,2048,17-03-2024,medium,0.73,medium,legacy,high,69,160,32,manual,17,22,14,17,225,232,910,900,82,expired,78,0.67,20,16,228
+fw-update-098,Firmware Update Server,AES-256,256,22-05-2025,low,0.42,high,post-quantum,low,37,0,0,success,12,14,8,10,138,140,984,979,94,valid,90,0.08,14,9,135
+ssh-key-099,SSH Key,ECC-521,521,24-08-2024,high,0.91,high,legacy,urgent,92,240,54,success,26,38,25,31,645,660,915,905,75,valid,80,0.91,33,28,640
+backup-100,Encrypted Backup,XChaCha20,256,05-02-2025,medium,0.58,medium,legacy,medium,54,95,24,manual,14,17,12,15,1995,2000,695,685,87,valid,82,0.23,17,15,1998
