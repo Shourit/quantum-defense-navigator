@@ -1,0 +1,116 @@
+{
+  "pull_request_title": "Add User Interaction Components, Top 5 High Risks Panel, and Fix Navigation Links",
+  "summary": "Complete implementation of AI query interface with verbosity/tone controls, Top 5 High Risks sidebar with CSV-based risk scoring, and fixed broken navigation links",
+  "files_changed": [
+    {
+      "file": "src/components/Dashboard/UserInteraction.tsx",
+      "status": "created",
+      "description": "New component with 6 example query chips, verbosity control (Short/Medium/Long), tone toggle (Technical/Non-technical), and quick action buttons (Summarize, Extract Actions, Export JSON)"
+    },
+    {
+      "file": "src/components/Dashboard/RightSidebarRisks.tsx",
+      "status": "created",
+      "description": "Right sidebar component displaying Top 5 high risks computed from QUASAR_Test_Data.csv with risk scores, explanations, recommended actions, and evidence snippets"
+    },
+    {
+      "file": "src/pages/Index.tsx",
+      "status": "modified",
+      "description": "Updated to include UserInteraction component at top and RightSidebarRisks in new two-column layout (main content + sidebar)"
+    },
+    {
+      "file": "src/pages/NotFound.tsx",
+      "status": "modified",
+      "description": "Fixed broken link: replaced HTML anchor tag with React Router Link component"
+    },
+    {
+      "file": "link_report.json",
+      "status": "created",
+      "description": "Link audit report documenting all link fixes"
+    }
+  ],
+  "topRisks": [
+    {
+      "rank": 1,
+      "riskLabel": "ssh-key-024 - SSH Key",
+      "score": 97,
+      "explanation": "SSH Key using RSA-4096 with 4096-bit keys poses high risk. Estimated 320 days to quantum-safe state.",
+      "actions": [
+        "Migrate RSA-4096 to post-quantum algorithm",
+        "Prioritize as critical vulnerability"
+      ],
+      "evidenceSnippet": "Vulnerability: 98%, Risk: 97%, Status: legacy"
+    },
+    {
+      "rank": 2,
+      "riskLabel": "ssh-key-004 - SSH Key",
+      "score": 95,
+      "explanation": "SSH Key using RSA-4096 with 4096-bit keys poses high risk. Estimated 310 days to quantum-safe state.",
+      "actions": [
+        "Migrate RSA-4096 to post-quantum algorithm",
+        "Prioritize as critical vulnerability"
+      ],
+      "evidenceSnippet": "Vulnerability: 97%, Risk: 93%, Status: legacy"
+    },
+    {
+      "rank": 3,
+      "riskLabel": "ssh-key-019 - SSH Key",
+      "score": 94,
+      "explanation": "SSH Key using RSA-4096 with 4096-bit keys poses high risk. Estimated 220 days to quantum-safe state.",
+      "actions": [
+        "Migrate RSA-4096 to post-quantum algorithm",
+        "Prioritize as critical vulnerability"
+      ],
+      "evidenceSnippet": "Vulnerability: 96%, Risk: 91%, Status: legacy"
+    },
+    {
+      "rank": 4,
+      "riskLabel": "vpn-021 - VPN Endpoint",
+      "score": 93,
+      "explanation": "VPN Endpoint using ECC-384 with 384-bit keys poses high risk. Estimated 215 days to quantum-safe state.",
+      "actions": [
+        "Migrate ECC-384 to post-quantum algorithm",
+        "Prioritize as critical vulnerability"
+      ],
+      "evidenceSnippet": "Vulnerability: 93%, Risk: 85%, Status: legacy"
+    },
+    {
+      "rank": 5,
+      "riskLabel": "vpn-011 - VPN Endpoint",
+      "score": 91,
+      "explanation": "VPN Endpoint using RSA-3072 with 3072-bit keys poses high risk. Estimated 240 days to quantum-safe state.",
+      "actions": [
+        "Migrate RSA-3072 to post-quantum algorithm",
+        "Enable automation for faster migration"
+      ],
+      "evidenceSnippet": "Vulnerability: 87%, Risk: 86%, Status: legacy"
+    }
+  ],
+  "test_steps": [
+    "1. Navigate to the homepage at https://quantum-defense-navigator.vercel.app/",
+    "2. Verify UserInteraction component appears at the top with 6 example query chips",
+    "3. Click any example chip to verify it auto-fills the input box",
+    "4. Test verbosity dropdown (Short/Medium/Long) and tone toggle (Technical/Non-technical)",
+    "5. Enter a query and click Submit to test the AI query handler",
+    "6. After response, verify Quick Action buttons (Summarize, Extract Actions, Export JSON) appear",
+    "7. Test Export JSON button to download response data",
+    "8. On desktop/larger screens, verify Top 5 High Risks panel appears on the right sidebar",
+    "9. Verify each risk card displays: rank, label, score badge, explanation, actions list, and evidence",
+    "10. Navigate to a non-existent route to verify 404 page uses proper Link component"
+  ],
+  "assumptions": [
+    "CSV structure: Assumed columns quantum_vulnerability_score (0-100) and quantum_risk_score (0-1) are the primary risk indicators",
+    "Risk scoring formula: composite_score = min(100, round((vulnerability_normalized * 0.6 + risk_normalized * 0.4) * 100))",
+    "Risk categorization: Based on current_status (legacy/post-quantum), cert_valid (expired/valid), and automation_status (manual/success)",
+    "Actions generation: Derived from asset status, certificate validity, automation status, and vulnerability score thresholds",
+    "AI integration: Mock responses used as placeholder; real implementation requires Lovable AI edge function connection",
+    "Responsive design: Right sidebar collapses on mobile/tablet views (< 1024px)",
+    "All changes are isolated to homepage/dashboard and do not affect other routes or components"
+  ],
+  "technical_notes": {
+    "risk_calculation": "Uses quantum_vulnerability_score and quantum_risk_score with 60/40 weighting to compute composite risk scores",
+    "data_source": "QUASAR_Test_Data.csv with 100 cryptographic assets",
+    "fallback_behavior": "Static dummy data displayed if CSV parsing fails",
+    "export_format": "JSON export includes query, response, verbosity, tone, and ISO timestamp",
+    "navigation_fix": "Replaced HTML <a> tag with React Router <Link> for SPA compatibility"
+  }
+}
