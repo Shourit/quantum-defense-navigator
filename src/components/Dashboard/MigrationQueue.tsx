@@ -1,13 +1,38 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Zap, Clock, CheckCircle2, ArrowRight } from "lucide-react";
+import { Zap, Clock, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { parseCSV, getMigrationTasks } from "@/utils/dataParser";
+import { simulateMigrationStart } from "@/lib/demoClient";
+import { toast } from "sonner";
 
 export const MigrationQueue = () => {
   const assets = parseCSV();
-  const tasks = getMigrationTasks(assets);
+  const [tasks, setTasks] = useState(getMigrationTasks(assets));
+  const [startingMigration, setStartingMigration] = useState<string | null>(null);
+
+  // DEMO MODE - Simulated migration start
+  const handleStartMigration = async (taskId: string, taskName: string) => {
+    setStartingMigration(taskId);
+    toast.info(`Starting migration for ${taskName}...`);
+    
+    // Simulate brief delay
+    await new Promise(resolve => setTimeout(resolve, 600));
+    
+    // Update task status client-side only
+    setTasks(prev => prev.map(task => 
+      task.id === taskId 
+        ? { ...task, progress: 5, status: "MIGRATING" as const }
+        : task
+    ));
+    
+    setStartingMigration(null);
+    toast.success(`Migration started for ${taskName}`, {
+      description: "ETA: 10 hours"
+    });
+  };
   return (
     <Card className="col-span-2 quantum-glow border-primary/20">
       <CardHeader>
@@ -54,9 +79,32 @@ export const MigrationQueue = () => {
                 <Progress value={task.progress} className="h-2" />
               </div>
             )}
-            <Button variant="outline" size="sm" className="w-full">
-              Start Migration
-            </Button>
+            <div className="space-y-1">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full"
+                onClick={() => handleStartMigration(task.id, task.name)}
+                disabled={startingMigration === task.id || task.progress > 0}
+              >
+                {startingMigration === task.id ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Starting...
+                  </>
+                ) : task.progress > 0 ? (
+                  <>
+                    <Clock className="h-4 w-4 mr-2" />
+                    ETA: 10 hours
+                  </>
+                ) : (
+                  "Start Migration"
+                )}
+              </Button>
+              {task.progress === 0 && (
+                <p className="text-[10px] text-muted-foreground text-center">Demo action - no real changes</p>
+              )}
+            </div>
           </div>
         ))}
       </CardContent>

@@ -4,57 +4,64 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, FileText, ListChecks, Download } from "lucide-react";
+import { Sparkles, FileText, ListChecks, Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { streamDemoResponse } from "@/lib/demoClient";
 
 interface UserInteractionProps {
   onSubmit: (query: string, verbosity: string, tone: string) => void;
   isLoading?: boolean;
 }
 
+// Updated concise examples (3-7 words each)
 const EXAMPLE_QUERIES = [
-  "What are the top quantum risks in my infrastructure?",
-  "Which assets need urgent migration to post-quantum cryptography?",
-  "Show me performance impact of PQC migration",
-  "What is my current compliance score?",
-  "List expired certificates that need renewal",
-  "Recommend migration priorities for RSA-2048 assets"
+  "Top quantum risks?",
+  "Which assets need migration?",
+  "Show PQC performance impact",
+  "Current compliance score?",
+  "List critical vulnerabilities",
+  "Recommend migration priorities"
 ];
 
 export const UserInteraction = ({ onSubmit, isLoading }: UserInteractionProps) => {
   const [query, setQuery] = useState("");
-  const [verbosity, setVerbosity] = useState("medium");
-  const [tone, setTone] = useState("technical");
-  const [response, setResponse] = useState<string | null>(null);
+  const [verbosity, setVerbosity] = useState<"short" | "medium" | "long">("medium");
+  const [tone, setTone] = useState<"technical" | "non-technical">("technical");
+  const [response, setResponse] = useState<string>("");
+  const [isStreaming, setIsStreaming] = useState(false);
 
-  const handleSubmit = () => {
+  // DEMO MODE - Stream simulated responses
+  const handleSubmit = async () => {
     if (!query.trim()) {
       toast.error("Please enter a query");
       return;
     }
     
-    let enhancedQuery = query;
+    setIsStreaming(true);
+    setResponse(""); // Clear previous response
     
-    // Add verbosity instruction
-    if (verbosity === "short") {
-      enhancedQuery += " Answer in 1–2 short sentences.";
-    } else if (verbosity === "medium") {
-      enhancedQuery += " Answer in 4–6 sentences.";
-    } else {
-      enhancedQuery += " Answer in 8–12 sentences.";
+    try {
+      // DEMO MODE - Use simulated streaming
+      await streamDemoResponse({
+        question: query,
+        verbosity,
+        tone,
+        onChunk: (chunk, done) => {
+          if (!done) {
+            setResponse(prev => prev + chunk);
+          } else {
+            setIsStreaming(false);
+          }
+        }
+      });
+      
+      // Call the original onSubmit for compatibility
+      onSubmit(query, verbosity, tone);
+    } catch (error) {
+      console.error("Demo stream error:", error);
+      toast.error("Failed to get response");
+      setIsStreaming(false);
     }
-    
-    // Add tone instruction
-    if (tone === "technical") {
-      enhancedQuery += " Use a technical tone.";
-    } else {
-      enhancedQuery += " Use a management-friendly non-technical tone.";
-    }
-    
-    // TODO: Replace with actual edge function call to submitQueryAdapter
-    onSubmit(enhancedQuery, verbosity, tone);
-    // Mock response for demo
-    setResponse("This is a mock AI response. Connect to Lovable AI to get real responses based on your QUASAR data.");
   };
 
   const handleExampleClick = (example: string) => {
@@ -96,25 +103,30 @@ export const UserInteraction = ({ onSubmit, isLoading }: UserInteractionProps) =
 
   return (
     <Card className="quantum-glow w-full max-w-[380px]">
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Sparkles className="h-4 w-4 text-primary" />
-          AI Assistant
-        </CardTitle>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Sparkles className="h-4 w-4 text-primary" />
+            AI Assistant
+          </CardTitle>
+          <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-muted/50">
+            demo mode
+          </Badge>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-3">
-        {/* Example Queries - Compact */}
+      <CardContent className="space-y-2.5">
+        {/* Example Queries - Improved wrapping, no truncation */}
         <div>
           <p className="text-xs text-muted-foreground mb-1.5">Examples:</p>
           <div className="flex flex-wrap gap-1.5">
-            {EXAMPLE_QUERIES.slice(0, 4).map((example, idx) => (
+            {EXAMPLE_QUERIES.map((example, idx) => (
               <Badge
                 key={idx}
                 variant="outline"
-                className="cursor-pointer hover:bg-primary/10 transition-colors text-xs max-w-[180px] truncate"
+                className="cursor-pointer hover:bg-primary/10 transition-colors text-xs whitespace-normal break-words px-2 py-1"
                 onClick={() => handleExampleClick(example)}
               >
-                {example.length > 35 ? example.substring(0, 35) + "..." : example}
+                {example}
               </Badge>
             ))}
           </div>
@@ -131,7 +143,7 @@ export const UserInteraction = ({ onSubmit, isLoading }: UserInteractionProps) =
 
         {/* Controls - Side by Side */}
         <div className="grid grid-cols-2 gap-2">
-          <Select value={verbosity} onValueChange={setVerbosity}>
+          <Select value={verbosity} onValueChange={(v) => setVerbosity(v as "short" | "medium" | "long")}>
             <SelectTrigger className="h-8 text-xs">
               <SelectValue />
             </SelectTrigger>
@@ -142,7 +154,7 @@ export const UserInteraction = ({ onSubmit, isLoading }: UserInteractionProps) =
             </SelectContent>
           </Select>
 
-          <Select value={tone} onValueChange={setTone}>
+          <Select value={tone} onValueChange={(t) => setTone(t as "technical" | "non-technical")}>
             <SelectTrigger className="h-8 text-xs">
               <SelectValue />
             </SelectTrigger>
@@ -156,50 +168,60 @@ export const UserInteraction = ({ onSubmit, isLoading }: UserInteractionProps) =
         {/* Submit Button - Compact */}
         <Button 
           onClick={handleSubmit} 
-          disabled={isLoading || !query.trim()}
+          disabled={isStreaming || !query.trim()}
           className="w-full h-8 text-xs"
           size="sm"
         >
-          {isLoading ? "Processing..." : "Submit"}
+          {isStreaming ? (
+            <>
+              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+              Streaming...
+            </>
+          ) : "Submit"}
         </Button>
 
         {/* Response Area - Compact */}
-        {response ? (
+        {response || isStreaming ? (
           <div className="space-y-2 pt-2 border-t">
             <div className="p-2 bg-muted rounded-md max-h-32 overflow-y-auto">
-              <p className="text-xs">{response}</p>
+              <p className="text-xs leading-relaxed">
+                {response}
+                {isStreaming && <span className="inline-block w-1 h-3 bg-primary animate-pulse ml-0.5" />}
+              </p>
             </div>
             
-            {/* Quick Actions - Compact */}
-            <div className="flex gap-1.5">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickAction("summarize")}
-                className="flex items-center gap-1 h-7 text-xs flex-1"
-              >
-                <FileText className="h-3 w-3" />
-                Sum
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickAction("extract")}
-                className="flex items-center gap-1 h-7 text-xs flex-1"
-              >
-                <ListChecks className="h-3 w-3" />
-                Act
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickAction("export")}
-                className="flex items-center gap-1 h-7 text-xs flex-1"
-              >
-                <Download className="h-3 w-3" />
-                JSON
-              </Button>
-            </div>
+            {/* Quick Actions - Show only after streaming completes */}
+            {!isStreaming && response && (
+              <div className="flex gap-1.5">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleQuickAction("summarize")}
+                  className="flex items-center gap-1 h-7 text-xs flex-1"
+                >
+                  <FileText className="h-3 w-3" />
+                  Sum
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleQuickAction("extract")}
+                  className="flex items-center gap-1 h-7 text-xs flex-1"
+                >
+                  <ListChecks className="h-3 w-3" />
+                  Act
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleQuickAction("export")}
+                  className="flex items-center gap-1 h-7 text-xs flex-1"
+                >
+                  <Download className="h-3 w-3" />
+                  JSON
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <p className="text-xs text-muted-foreground text-center py-2">AI response will appear here.</p>

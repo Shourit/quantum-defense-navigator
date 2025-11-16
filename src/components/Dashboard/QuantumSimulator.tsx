@@ -1,13 +1,32 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Activity, AlertTriangle } from "lucide-react";
+import { Activity, AlertTriangle, Loader2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { parseCSV, getQuantumSimulationData } from "@/utils/dataParser";
+import { generateDemoSimulationData } from "@/lib/demoClient";
+import { toast } from "sonner";
 
 export const QuantumSimulator = () => {
   const assets = parseCSV();
-  const results = getQuantumSimulationData(assets);
+  const [results, setResults] = useState(getQuantumSimulationData(assets));
+  const [isSimulating, setIsSimulating] = useState(false);
+
+  // DEMO MODE - Simulated quantum attack simulation
+  const handleRunSimulation = async () => {
+    setIsSimulating(true);
+    toast.info("Running quantum attack simulation...");
+    
+    // Simulate 900ms processing time
+    await new Promise(resolve => setTimeout(resolve, 900));
+    
+    // Generate new deterministic simulation data
+    const newResults = generateDemoSimulationData();
+    setResults(newResults);
+    setIsSimulating(false);
+    toast.success("Simulation finished");
+  };
   return (
     <Card className="col-span-1 quantum-glow border-primary/20">
       <CardHeader>
@@ -82,10 +101,26 @@ export const QuantumSimulator = () => {
           })}
         </div>
 
-        <Button variant="outline" size="sm" className="w-full">
-          <Activity className="h-4 w-4 mr-2" />
-          Run New Simulation
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full" 
+          onClick={handleRunSimulation}
+          disabled={isSimulating}
+        >
+          {isSimulating ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Simulating...
+            </>
+          ) : (
+            <>
+              <Activity className="h-4 w-4 mr-2" />
+              Run New Simulation
+            </>
+          )}
         </Button>
+        <p className="text-[10px] text-muted-foreground text-center">Demo mode - no real infrastructure changes</p>
       </CardContent>
     </Card>
   );
