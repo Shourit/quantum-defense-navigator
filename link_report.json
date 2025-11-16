@@ -3,6 +3,7 @@
     "file": "src/pages/NotFound.tsx",
     "original": "<a href=\"/\">",
     "status": "fixed",
-    "new": "<Link to=\"/\">"
+    "new": "<Link to=\"/\">",
+    "note": "Fixed in previous PR - replaced anchor tag with React Router Link"
   }
 ]

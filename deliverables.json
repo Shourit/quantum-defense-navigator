@@ -1,46 +1,66 @@
 {
-  "pull_request_title": "ui: compact AI assistant to top-right; align risks; fix links",
+  "pull_request_title": "chore(ui): polish AI assistant UX; add demo-mode streaming + simulated actions; finalize link_report",
   "files_changed": [
     {
-      "path": "src/components/Dashboard/UserInteraction.tsx",
-      "description": "Compacted AI assistant to 380px width, reduced height by ~40%, made layout more compact with side-by-side controls, smaller chips (4 visible), and slim response placeholder"
+      "path": "src/lib/demoClient.ts",
+      "description": "Created demo client with streaming response simulation, deterministic simulation data generator, and migration simulation helpers. All marked as DEMO MODE with no external API calls."
     },
     {
-      "path": "src/pages/Index.tsx",
-      "description": "Moved AI assistant to sticky top-right sidebar position (top: 88px), removed from main content area, aligned with Top 5 High Risks panel in right column"
+      "path": "src/components/Dashboard/UserInteraction.tsx",
+      "description": "Updated AI assistant with: (1) improved chip wrapping without truncation, (2) concise 3-7 word examples, (3) demo mode badge, (4) streaming response implementation with loading states, (5) quick actions appear only after streaming completes"
+    },
+    {
+      "path": "src/components/Dashboard/QuantumSimulator.tsx",
+      "description": "Added demo simulation runner that generates deterministic quantum attack data after 900ms delay, shows loading state, and displays toast notifications"
+    },
+    {
+      "path": "src/components/Dashboard/MigrationQueue.tsx",
+      "description": "Implemented demo migration start functionality that updates task status client-side, shows ETA, displays loading states, and clearly labels as demo-only action"
     },
     {
       "path": "link_report.json",
-      "description": "Updated link audit report confirming NotFound.tsx link was previously fixed, no new broken links found"
+      "description": "Finalized link audit report with note confirming previous fix to NotFound.tsx"
     }
   ],
   "link_report_path": "link_report.json",
+  "updated_examples": [
+    "Top quantum risks?",
+    "Which assets need migration?",
+    "Show PQC performance impact",
+    "Current compliance score?",
+    "List critical vulnerabilities",
+    "Recommend migration priorities"
+  ],
   "notes": [
-    "TODO: UserInteraction handleSubmit calls onSubmit prop which should connect to actual edge function endpoint",
-    "AI assistant is now positioned sticky at top: 88px in right sidebar",
-    "Top 5 High Risks panel flows naturally below AI assistant in same column",
-    "All internal links verified working with React Router",
-    "No external links found that need fixing"
+    "All demo mode code clearly marked with '// DEMO MODE - NO EXTERNAL CALLS' comments",
+    "To replace with real LLM: swap streamDemoResponse in UserInteraction.tsx with actual edge function call to /api/chat endpoint",
+    "Example chips now use responsive wrapping with whitespace-normal and break-words - no truncation",
+    "Streaming responses include cursor animation during loading",
+    "Quick action buttons hidden until response completes",
+    "All simulated actions are client-side only and clearly labeled",
+    "Migration tasks update to 'MIGRATING' status with 5% progress and ETA display",
+    "Simulation generates consistent deterministic data for reproducible testing"
   ],
   "test_steps": [
     "1. Navigate to https://quantum-defense-navigator.vercel.app/",
-    "2. Verify AI Assistant appears as compact card in top-right sidebar (380px width)",
-    "3. Confirm only 4 example chips visible, wrapped in 2 rows",
-    "4. Check Verbosity and Tone dropdowns are side-by-side",
-    "5. Verify placeholder text 'AI response will appear here.' shows initially",
-    "6. Enter a query and click Submit to test response area",
-    "7. After response, verify quick action buttons (Sum, Act, JSON) appear compactly",
-    "8. Scroll down to confirm AI assistant stays sticky at top-right",
-    "9. Verify Top 5 High Risks panel appears below AI assistant in same right column",
-    "10. Navigate to non-existent route to verify 404 page link works"
+    "2. Verify AI Assistant appears as compact card in top-right sidebar with 'demo mode' badge",
+    "3. Confirm all 6 example chips visible and wrap properly without mid-word truncation",
+    "4. Click an example chip → verify input fills → click Submit",
+    "5. Observe streaming response with cursor animation",
+    "6. After streaming completes, verify Quick Action buttons (Sum, Act, JSON) appear",
+    "7. Scroll down to Quantum Attack Simulation section",
+    "8. Click 'Run New Simulation' → verify 900ms loading state → confirm chart updates and 'Simulation finished' toast",
+    "9. Scroll to AI Migration Orchestrator section",
+    "10. Click 'Start Migration' on any task → verify button shows 'Starting...' → confirm status changes to MIGRATING with ETA",
+    "11. Resize browser window to < 360px to verify responsive chip behavior",
+    "12. Check that all demo actions show 'Demo mode' or 'Demo action' labels"
   ],
   "assumptions": [
-    "AI assistant width set to max-w-[380px] to match right sidebar column",
-    "Sticky positioning uses top: 88px to account for header height",
-    "Response area limited to max-h-32 with scroll for overflow",
-    "Only first 4 example chips shown to save space, truncated at 35 chars",
-    "Quick action button labels abbreviated (Summarize→Sum, Extract Actions→Act, Export JSON→JSON)",
-    "handleSubmit function reuses existing onSubmit prop flow - actual edge function integration needed",
-    "All links previously audited, no new broken links found in codebase"
+    "QUASAR_Test_Data.csv is available for risk panel data; demoClient.ts uses static contextual keywords as fallback",
+    "All demo responses are deterministic based on verbosity + tone inputs",
+    "Streaming chunks are 180-300ms apart to simulate realistic AI response timing",
+    "Migration progress starts at 5% when 'MIGRATING' status is set",
+    "Simulation data uses fixed base vulnerability scores + small random variance for visual variety",
+    "No backend or database changes - all state updates are client-side React state only"
   ]
 }
