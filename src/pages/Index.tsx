@@ -55,12 +55,7 @@ const Index = () => {
 
       {/* Main Dashboard */}
       <main className="container mx-auto px-6 py-8">
-        {/* AI Query Section */}
-        <div className="mb-8">
-          <UserInteraction onSubmit={handleAIQuery} isLoading={isLoading} />
-        </div>
-
-        {/* Two-Column Layout: Main Content + Sidebar */}
+        {/* Two-Column Layout: Main Content + Right Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
           {/* Main Content */}
           <div className="space-y-8">
@@ -253,8 +248,11 @@ const Index = () => {
         </div>
           </div>
 
-          {/* Right Sidebar: Top 5 High Risks */}
-          <div className="lg:block">
+          {/* Right Sidebar: AI Assistant + Top 5 High Risks */}
+          <div className="lg:block space-y-6">
+            <div className="sticky top-[88px]">
+              <UserInteraction onSubmit={handleAIQuery} isLoading={isLoading} />
+            </div>
             <RightSidebarRisks />
           </div>
         </div>
