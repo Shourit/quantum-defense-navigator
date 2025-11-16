@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Shield, Activity, Database, AlertTriangle, TrendingUp, Lock, Clock, Zap, Gauge, Award, FileCheck, Target } from "lucide-react";
 import { MetricsCard } from "@/components/Dashboard/MetricsCard";
 import { RiskChart } from "@/components/Dashboard/RiskChart";
@@ -8,13 +9,23 @@ import { AlgorithmDistribution } from "@/components/Dashboard/AlgorithmDistribut
 import { PerformanceComparison } from "@/components/Dashboard/PerformanceComparison";
 import { ComplianceTrend } from "@/components/Dashboard/ComplianceTrend";
 import { CertificateStatus } from "@/components/Dashboard/CertificateStatus";
+import { UserInteraction } from "@/components/Dashboard/UserInteraction";
+import { RightSidebarRisks } from "@/components/Dashboard/RightSidebarRisks";
 import { parseCSV, calculateMetrics } from "@/utils/dataParser";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const assets = parseCSV();
   const metrics = calculateMetrics(assets);
   const migrationProgress = Math.round((metrics.postQuantumAssets / metrics.totalAssets) * 100);
+
+  const handleAIQuery = (query: string, verbosity: string, tone: string) => {
+    setIsLoading(true);
+    // TODO: Connect to Lovable AI for real AI responses
+    console.log("AI Query:", { query, verbosity, tone });
+    setTimeout(() => setIsLoading(false), 1000);
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -43,7 +54,16 @@ const Index = () => {
       </header>
 
       {/* Main Dashboard */}
-      <main className="container mx-auto px-6 py-8 space-y-8">
+      <main className="container mx-auto px-6 py-8">
+        {/* AI Query Section */}
+        <div className="mb-8">
+          <UserInteraction onSubmit={handleAIQuery} isLoading={isLoading} />
+        </div>
+
+        {/* Two-Column Layout: Main Content + Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
+          {/* Main Content */}
+          <div className="space-y-8">
         {/* Section: Quantum Risk Metrics */}
         <div>
           <div className="flex items-center gap-2 mb-4">
@@ -229,6 +249,13 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             <AssetTable />
             <MigrationQueue />
+          </div>
+        </div>
+          </div>
+
+          {/* Right Sidebar: Top 5 High Risks */}
+          <div className="lg:block">
+            <RightSidebarRisks />
           </div>
         </div>
 
