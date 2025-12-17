@@ -98,6 +98,7 @@ const CSVUpload = ({ onDataChange }: CSVUploadProps) => {
   const handleClear = () => {
     setUploadedFile(null);
     setUploadedData(null);
+    setDataMode("combined");
     onDataChange(null, "combined");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -116,9 +117,19 @@ const CSVUpload = ({ onDataChange }: CSVUploadProps) => {
     toast.success("Sample template downloaded");
   };
 
+  const currentDatasetLabel = uploadedData 
+    ? (dataMode === "combined" ? "Existing + Uploaded" : "Uploaded Only")
+    : "Existing Dataset";
+
   return (
     <Card className="bg-card border-border">
-      <CardContent className="p-4">
+      <CardContent className="p-4 space-y-3">
+        {/* Instructions Header */}
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <Info className="h-4 w-4 text-primary" />
+          <span>Choose which dataset you want to analyze</span>
+        </div>
+
         <div className="flex flex-wrap items-center gap-4">
           {/* Upload Section */}
           <div className="flex items-center gap-2">
@@ -179,12 +190,15 @@ const CSVUpload = ({ onDataChange }: CSVUploadProps) => {
               </div>
             </RadioGroup>
           )}
+        </div>
 
-          {/* Instructions */}
-          <div className="flex items-center gap-1 text-xs text-muted-foreground ml-auto">
-            <Info className="h-3 w-3" />
-            <span>Session-only data. Refreshing resets upload.</span>
+        {/* Current State Confirmation */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-muted/50 border border-border">
+            <span className="text-xs text-muted-foreground">Currently viewing:</span>
+            <span className="text-xs font-medium text-foreground">{currentDatasetLabel}</span>
           </div>
+          <span className="text-xs text-muted-foreground">Session-only data. Refreshing resets upload.</span>
         </div>
       </CardContent>
     </Card>
