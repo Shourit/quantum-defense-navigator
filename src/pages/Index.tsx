@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Shield, Activity, Database, AlertTriangle, TrendingUp, Lock, Clock, Zap, Gauge, Award, FileCheck, Target } from "lucide-react";
 import { MetricsCard } from "@/components/Dashboard/MetricsCard";
 import { RiskChart } from "@/components/Dashboard/RiskChart";
@@ -11,14 +11,34 @@ import { ComplianceTrend } from "@/components/Dashboard/ComplianceTrend";
 import { CertificateStatus } from "@/components/Dashboard/CertificateStatus";
 import { UserInteraction } from "@/components/Dashboard/UserInteraction";
 import { RightSidebarRisks } from "@/components/Dashboard/RightSidebarRisks";
-import { parseCSV, calculateMetrics } from "@/utils/dataParser";
+import { EXLLogo } from "@/components/Dashboard/EXLLogo";
+import { ProjectAssetOverview } from "@/components/Dashboard/ProjectAssetOverview";
+import { CSVUpload } from "@/components/Dashboard/CSVUpload";
+import { PDFExport } from "@/components/Dashboard/PDFExport";
+import { parseCSV, calculateMetrics, Asset } from "@/utils/dataParser";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const assets = parseCSV();
+  const [uploadedData, setUploadedData] = useState<Asset[] | null>(null);
+  const [dataMode, setDataMode] = useState<"combined" | "uploadOnly">("combined");
+  
+  const defaultAssets = parseCSV();
+  
+  // Combine or use uploaded data based on mode
+  const assets = useMemo(() => {
+    if (!uploadedData) return defaultAssets;
+    if (dataMode === "uploadOnly") return uploadedData;
+    return [...defaultAssets, ...uploadedData];
+  }, [defaultAssets, uploadedData, dataMode]);
+  
   const metrics = calculateMetrics(assets);
   const migrationProgress = Math.round((metrics.postQuantumAssets / metrics.totalAssets) * 100);
+
+  const handleCSVDataChange = (data: Asset[] | null, mode: "combined" | "uploadOnly") => {
+    setUploadedData(data);
+    setDataMode(mode);
+  };
 
   const handleAIQuery = (query: string, verbosity: string, tone: string) => {
     setIsLoading(true);
@@ -32,18 +52,23 @@ const Index = () => {
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10 quantum-glow">
-                <Shield className="h-6 w-6 text-primary" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold quantum-text-glow">QUASAR</h1>
-                <p className="text-xs text-muted-foreground">
-                  Quantum-Augmented Security Architecture & Resilience
-                </p>
+            <div className="flex items-center gap-4">
+              <EXLLogo />
+              <div className="h-8 w-px bg-border" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 quantum-glow">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold quantum-text-glow">QUASAR</h1>
+                  <p className="text-xs text-muted-foreground">
+                    Quantum-Augmented Security Architecture & Resilience
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
+              <PDFExport targetId="dashboard-content" />
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span className="text-xs font-medium text-success">System Active</span>
@@ -54,17 +79,25 @@ const Index = () => {
       </header>
 
       {/* Main Dashboard */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 py-8" id="dashboard-content">
         {/* Two-Column Layout: Main Content + Right Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
           {/* Main Content */}
           <div className="space-y-8">
-        {/* Section: Quantum Risk Metrics */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
-            <h2 className="text-lg font-semibold">Quantum Risk Assessment</h2>
-          </div>
+            {/* CSV Upload */}
+            <CSVUpload onDataChange={handleCSVDataChange} />
+
+            {/* Project Asset Overview - Above all existing metrics */}
+            <ProjectAssetOverview assets={assets} />
+
+            <Separator />
+
+            {/* Section: Quantum Risk Metrics */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <AlertTriangle className="h-5 w-5 text-destructive" />
+                <h2 className="text-lg font-semibold">Quantum Risk Assessment</h2>
+              </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricsCard
               title="Quantum Threat Level"
