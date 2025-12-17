@@ -89,9 +89,9 @@ export const calculateMetrics = (assets: Asset[]): DashboardMetrics => {
   const totalRiskScore = assets.reduce((sum, asset) => sum + asset.quantum_risk_score, 0);
   const averageRiskScore = totalRiskScore / assets.length;
   
-  const highRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.8).length;
-  const mediumRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.6 && a.quantum_risk_score < 0.8).length;
-  const lowRiskAssets = assets.filter(a => a.quantum_risk_score < 0.6).length;
+  const highRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.7).length;
+  const mediumRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.4 && a.quantum_risk_score < 0.7).length;
+  const lowRiskAssets = assets.filter(a => a.quantum_risk_score < 0.4).length;
   
   const avgQuantumVulnerability = Math.round(assets.reduce((sum, a) => sum + a.quantum_vulnerability_score, 0) / assets.length);
   const avgTimeToQSafe = Math.round(assets.filter(a => a.estimated_time_to_qsafe > 0).reduce((sum, a) => sum + a.estimated_time_to_qsafe, 0) / assets.filter(a => a.estimated_time_to_qsafe > 0).length || 0);
