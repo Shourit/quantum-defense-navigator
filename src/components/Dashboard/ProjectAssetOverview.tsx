@@ -16,15 +16,15 @@ type RiskLevel = "high" | "medium" | "low" | null;
 const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
   const [selectedRiskLevel, setSelectedRiskLevel] = useState<RiskLevel>(null);
 
-  // Calculate metrics based on quantum_vulnerability_score thresholds
+  // Calculate metrics based on quantum_risk_score thresholds (0-1 scale)
   const totalAssets = assets.length;
   const migratedAssets = assets.filter(a => a.current_status === "post-quantum").length;
   const pendingAssets = assets.filter(a => a.current_status !== "post-quantum").length;
 
-  // Quantum vulnerability categories - scores are 0-100 scale
-  const highRiskAssets = assets.filter(a => a.quantum_vulnerability_score >= 70);
-  const mediumRiskAssets = assets.filter(a => a.quantum_vulnerability_score >= 40 && a.quantum_vulnerability_score < 70);
-  const lowRiskAssets = assets.filter(a => a.quantum_vulnerability_score < 40);
+  // Quantum risk categories - using quantum_risk_score (0-1 scale)
+  const highRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.7);
+  const mediumRiskAssets = assets.filter(a => a.quantum_risk_score >= 0.4 && a.quantum_risk_score < 0.7);
+  const lowRiskAssets = assets.filter(a => a.quantum_risk_score < 0.4);
 
   const highRiskPercent = totalAssets > 0 ? Math.round((highRiskAssets.length / totalAssets) * 100) : 0;
   const mediumRiskPercent = totalAssets > 0 ? Math.round((mediumRiskAssets.length / totalAssets) * 100) : 0;
@@ -61,8 +61,8 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
   const filteredAssets = getFilteredAssets();
 
   const getRiskBadgeVariant = (score: number) => {
-    if (score >= 70) return "destructive";
-    if (score >= 40) return "secondary";
+    if (score >= 0.7) return "destructive";
+    if (score >= 0.4) return "secondary";
     return "default";
   };
 
@@ -191,7 +191,7 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
                   <div className="w-3 h-3 rounded-full bg-destructive mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-foreground">High Risk</p>
-                    <p className="text-xs text-muted-foreground">quantum_vulnerability_score ≥ 0.7</p>
+                    <p className="text-xs text-muted-foreground">quantum_risk_score ≥ 0.7</p>
                     <p className="text-xs text-destructive mt-1">{highRiskAssets.length} assets ({highRiskPercent}%)</p>
                   </div>
                 </div>
@@ -200,7 +200,7 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
                   <div className="w-3 h-3 rounded-full bg-warning mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-foreground">Medium Risk</p>
-                    <p className="text-xs text-muted-foreground">0.4 ≤ quantum_vulnerability_score &lt; 0.7</p>
+                    <p className="text-xs text-muted-foreground">0.4 ≤ quantum_risk_score &lt; 0.7</p>
                     <p className="text-xs text-warning mt-1">{mediumRiskAssets.length} assets ({mediumRiskPercent}%)</p>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
                   <div className="w-3 h-3 rounded-full bg-success mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-foreground">Low Risk</p>
-                    <p className="text-xs text-muted-foreground">quantum_vulnerability_score &lt; 0.4</p>
+                    <p className="text-xs text-muted-foreground">quantum_risk_score &lt; 0.4</p>
                     <p className="text-xs text-success mt-1">{lowRiskAssets.length} assets ({lowRiskPercent}%)</p>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
                         <TableHead>Asset ID</TableHead>
                         <TableHead>Type</TableHead>
                         <TableHead>Algorithm</TableHead>
-                        <TableHead>Vuln. Score</TableHead>
+                        <TableHead>Risk Score</TableHead>
                         <TableHead>Status</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -253,8 +253,8 @@ const ProjectAssetOverview = ({ assets }: ProjectAssetOverviewProps) => {
                           <TableCell className="text-xs">{asset.type}</TableCell>
                           <TableCell className="text-xs">{asset.encryption_algorithm}</TableCell>
                           <TableCell>
-                            <Badge variant={getRiskBadgeVariant(asset.quantum_vulnerability_score)}>
-                              {(asset.quantum_vulnerability_score * 100).toFixed(0)}%
+                            <Badge variant={getRiskBadgeVariant(asset.quantum_risk_score)}>
+                              {(asset.quantum_risk_score * 100).toFixed(0)}%
                             </Badge>
                           </TableCell>
                           <TableCell className="text-xs capitalize">{asset.current_status}</TableCell>
