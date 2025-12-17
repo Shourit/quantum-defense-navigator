@@ -23,9 +23,10 @@ const Index = () => {
   const [uploadedData, setUploadedData] = useState<Asset[] | null>(null);
   const [dataMode, setDataMode] = useState<"combined" | "uploadOnly">("combined");
   
-  const defaultAssets = parseCSV();
+  const defaultAssets = useMemo(() => parseCSV(), []);
   
   // Combine or use uploaded data based on mode
+  // Always use default dataset if no upload; uploaded CSV never overrides unless selected
   const assets = useMemo(() => {
     if (!uploadedData) return defaultAssets;
     if (dataMode === "uploadOnly") return uploadedData;
@@ -35,6 +36,8 @@ const Index = () => {
   const metrics = calculateMetrics(assets);
   const migrationProgress = Math.round((metrics.postQuantumAssets / metrics.totalAssets) * 100);
 
+  const hasUploadedData = uploadedData !== null && uploadedData.length > 0;
+
   const handleCSVDataChange = (data: Asset[] | null, mode: "combined" | "uploadOnly") => {
     setUploadedData(data);
     setDataMode(mode);
@@ -42,10 +45,10 @@ const Index = () => {
 
   const handleAIQuery = (query: string, verbosity: string, tone: string) => {
     setIsLoading(true);
-    // TODO: Connect to Lovable AI for real AI responses
     console.log("AI Query:", { query, verbosity, tone });
     setTimeout(() => setIsLoading(false), 1000);
   };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -68,7 +71,7 @@ const Index = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <PDFExport targetId="dashboard-content" />
+              <PDFExport targetId="dashboard-content" disabled={!hasUploadedData} />
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span className="text-xs font-medium text-success">System Active</span>
@@ -84,6 +87,16 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
           {/* Main Content */}
           <div className="space-y-8">
+            {/* Executive Context Banner */}
+            <div className="p-4 rounded-lg bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/10">
+              <p className="text-sm text-foreground text-center">
+                <span className="font-medium">Executive Dashboard:</span>{" "}
+                <span className="text-muted-foreground">
+                  Real-time quantum vulnerability assessment and cryptographic asset migration status
+                </span>
+              </p>
+            </div>
+
             {/* CSV Upload */}
             <CSVUpload onDataChange={handleCSVDataChange} />
 
@@ -98,187 +111,187 @@ const Index = () => {
                 <AlertTriangle className="h-5 w-5 text-destructive" />
                 <h2 className="text-lg font-semibold">Quantum Risk Assessment</h2>
               </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricsCard
-              title="Quantum Threat Level"
-              value={`${metrics.averageRiskScore}%`}
-              icon={AlertTriangle}
-              trend={{ value: 12, isPositive: false }}
-              valueClassName="text-destructive"
-            />
-            <MetricsCard
-              title="Avg Vulnerability Score"
-              value={metrics.avgQuantumVulnerability}
-              icon={Shield}
-              valueClassName="text-warning"
-            />
-            <MetricsCard
-              title="Vulnerable Assets"
-              value={metrics.vulnerableAssets}
-              icon={Lock}
-              trend={{ value: 15, isPositive: false }}
-              valueClassName="text-warning"
-            />
-            <MetricsCard
-              title="Time to Quantum-Safe"
-              value={`${metrics.avgTimeToQSafe}d`}
-              icon={Clock}
-              valueClassName="text-primary"
-            />
-          </div>
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricsCard
+                  title="Quantum Threat Level"
+                  value={`${metrics.averageRiskScore}%`}
+                  icon={AlertTriangle}
+                  trend={{ value: 12, isPositive: false }}
+                  valueClassName="text-destructive"
+                />
+                <MetricsCard
+                  title="Avg Vulnerability Score"
+                  value={metrics.avgQuantumVulnerability}
+                  icon={Shield}
+                  valueClassName="text-warning"
+                />
+                <MetricsCard
+                  title="Vulnerable Assets"
+                  value={metrics.vulnerableAssets}
+                  icon={Lock}
+                  trend={{ value: 15, isPositive: false }}
+                  valueClassName="text-warning"
+                />
+                <MetricsCard
+                  title="Time to Quantum-Safe"
+                  value={`${metrics.avgTimeToQSafe}d`}
+                  icon={Clock}
+                  valueClassName="text-primary"
+                />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Section: Migration Metrics */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold">Migration Progress</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricsCard
-              title="Migration Progress"
-              value={`${migrationProgress}%`}
-              icon={TrendingUp}
-              trend={{ value: 23, isPositive: true }}
-              valueClassName="text-primary"
-            />
-            <MetricsCard
-              title="Avg Migration Time"
-              value={`${metrics.avgMigrationTime}h`}
-              icon={Clock}
-            />
-            <MetricsCard
-              title="Automation Success Rate"
-              value={`${metrics.automationSuccessRate}%`}
-              icon={Zap}
-              valueClassName="text-success"
-            />
-            <MetricsCard
-              title="Total Assets"
-              value={metrics.totalAssets.toLocaleString()}
-              icon={Database}
-              trend={{ value: 8, isPositive: true }}
-            />
-          </div>
-        </div>
+            {/* Section: Migration Metrics */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Migration Progress</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricsCard
+                  title="Migration Progress"
+                  value={`${migrationProgress}%`}
+                  icon={TrendingUp}
+                  trend={{ value: 23, isPositive: true }}
+                  valueClassName="text-primary"
+                />
+                <MetricsCard
+                  title="Avg Migration Time"
+                  value={`${metrics.avgMigrationTime}h`}
+                  icon={Clock}
+                />
+                <MetricsCard
+                  title="Automation Success Rate"
+                  value={`${metrics.automationSuccessRate}%`}
+                  icon={Zap}
+                  valueClassName="text-success"
+                />
+                <MetricsCard
+                  title="Total Assets"
+                  value={metrics.totalAssets.toLocaleString()}
+                  icon={Database}
+                  trend={{ value: 8, isPositive: true }}
+                />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Section: Performance Metrics */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Gauge className="h-5 w-5 text-accent" />
-            <h2 className="text-lg font-semibold">Performance Impact</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricsCard
-              title="Latency Impact"
-              value={`${metrics.avgLatencyImpact >= 0 ? '+' : ''}${metrics.avgLatencyImpact}%`}
-              icon={Activity}
-              valueClassName={metrics.avgLatencyImpact > 5 ? "text-warning" : "text-success"}
-            />
-            <MetricsCard
-              title="CPU Overhead"
-              value={`${metrics.avgCpuImpact >= 0 ? '+' : ''}${metrics.avgCpuImpact}%`}
-              icon={Gauge}
-              valueClassName={metrics.avgCpuImpact > 5 ? "text-warning" : "text-success"}
-            />
-            <MetricsCard
-              title="Memory Overhead"
-              value={`${metrics.avgMemoryImpact >= 0 ? '+' : ''}${metrics.avgMemoryImpact}%`}
-              icon={Database}
-              valueClassName={metrics.avgMemoryImpact > 5 ? "text-warning" : "text-success"}
-            />
-            <MetricsCard
-              title="Throughput Change"
-              value={`${metrics.avgThroughputImpact >= 0 ? '+' : ''}${metrics.avgThroughputImpact}%`}
-              icon={TrendingUp}
-              valueClassName={metrics.avgThroughputImpact < -5 ? "text-warning" : "text-success"}
-            />
-          </div>
-        </div>
+            {/* Section: Performance Metrics */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Gauge className="h-5 w-5 text-accent" />
+                <h2 className="text-lg font-semibold">Performance Impact</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricsCard
+                  title="Latency Impact"
+                  value={`${metrics.avgLatencyImpact >= 0 ? '+' : ''}${metrics.avgLatencyImpact}%`}
+                  icon={Activity}
+                  valueClassName={metrics.avgLatencyImpact > 5 ? "text-warning" : "text-success"}
+                />
+                <MetricsCard
+                  title="CPU Overhead"
+                  value={`${metrics.avgCpuImpact >= 0 ? '+' : ''}${metrics.avgCpuImpact}%`}
+                  icon={Gauge}
+                  valueClassName={metrics.avgCpuImpact > 5 ? "text-warning" : "text-success"}
+                />
+                <MetricsCard
+                  title="Memory Overhead"
+                  value={`${metrics.avgMemoryImpact >= 0 ? '+' : ''}${metrics.avgMemoryImpact}%`}
+                  icon={Database}
+                  valueClassName={metrics.avgMemoryImpact > 5 ? "text-warning" : "text-success"}
+                />
+                <MetricsCard
+                  title="Throughput Change"
+                  value={`${metrics.avgThroughputImpact >= 0 ? '+' : ''}${metrics.avgThroughputImpact}%`}
+                  icon={TrendingUp}
+                  valueClassName={metrics.avgThroughputImpact < -5 ? "text-warning" : "text-success"}
+                />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Section: Security Effectiveness */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Award className="h-5 w-5 text-success" />
-            <h2 className="text-lg font-semibold">Security Effectiveness</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricsCard
-              title="Compliance Score"
-              value={`${metrics.avgComplianceScore}%`}
-              icon={Award}
-              valueClassName="text-success"
-            />
-            <MetricsCard
-              title="Expired Certificates"
-              value={metrics.expiredCerts}
-              icon={FileCheck}
-              valueClassName={metrics.expiredCerts > 0 ? "text-destructive" : "text-success"}
-            />
-            <MetricsCard
-              title="Encryption Strength"
-              value={`${metrics.avgEncryptionStrength}/100`}
-              icon={Shield}
-              valueClassName="text-primary"
-            />
-            <MetricsCard
-              title="Predicted Migration Risk"
-              value={`${metrics.avgPredictedMigrationRisk}%`}
-              icon={Target}
-              valueClassName={metrics.avgPredictedMigrationRisk > 50 ? "text-warning" : "text-success"}
-            />
-          </div>
-        </div>
+            {/* Section: Security Effectiveness */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Award className="h-5 w-5 text-success" />
+                <h2 className="text-lg font-semibold">Security Effectiveness</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricsCard
+                  title="Compliance Score"
+                  value={`${metrics.avgComplianceScore}%`}
+                  icon={Award}
+                  valueClassName="text-success"
+                />
+                <MetricsCard
+                  title="Expired Certificates"
+                  value={metrics.expiredCerts}
+                  icon={FileCheck}
+                  valueClassName={metrics.expiredCerts > 0 ? "text-destructive" : "text-success"}
+                />
+                <MetricsCard
+                  title="Encryption Strength"
+                  value={`${metrics.avgEncryptionStrength}/100`}
+                  icon={Shield}
+                  valueClassName="text-primary"
+                />
+                <MetricsCard
+                  title="Predicted Migration Risk"
+                  value={`${metrics.avgPredictedMigrationRisk}%`}
+                  icon={Target}
+                  valueClassName={metrics.avgPredictedMigrationRisk > 50 ? "text-warning" : "text-success"}
+                />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Risk Timeline & Quantum Simulation */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Activity className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold">Risk Analysis & Quantum Simulation</h2>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <RiskChart />
-            <QuantumSimulator />
-          </div>
-        </div>
+            {/* Risk Timeline & Quantum Simulation */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Activity className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Risk Analysis & Quantum Simulation</h2>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <RiskChart />
+                <QuantumSimulator />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Visualizations */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Database className="h-5 w-5 text-accent" />
-            <h2 className="text-lg font-semibold">Security Insights & Analytics</h2>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <AlgorithmDistribution />
-            <PerformanceComparison />
-            <ComplianceTrend />
-            <CertificateStatus />
-          </div>
-        </div>
+            {/* Visualizations */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Database className="h-5 w-5 text-accent" />
+                <h2 className="text-lg font-semibold">Security Insights & Analytics</h2>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <AlgorithmDistribution />
+                <PerformanceComparison />
+                <ComplianceTrend />
+                <CertificateStatus />
+              </div>
+            </div>
 
-        <Separator />
+            <Separator />
 
-        {/* Asset Table & Migration Queue */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Database className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold">Asset Inventory & Migration Queue</h2>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            <AssetTable />
-            <MigrationQueue />
-          </div>
-        </div>
+            {/* Asset Table & Migration Queue */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Database className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Asset Inventory & Migration Queue</h2>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <AssetTable />
+                <MigrationQueue />
+              </div>
+            </div>
           </div>
 
           {/* Right Sidebar: AI Assistant + Top 5 High Risks */}
@@ -291,7 +304,7 @@ const Index = () => {
         </div>
 
         {/* Status Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           <div className="p-4 rounded-lg bg-card border border-border">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="h-4 w-4 text-primary" />

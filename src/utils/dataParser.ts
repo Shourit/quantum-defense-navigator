@@ -65,12 +65,12 @@ export const parseCSV = (): Asset[] => {
     
     headers.forEach((header, index) => {
       const value = values[index]?.trim();
-      if (['key_length', 'quantum_vulnerability_score', 'estimated_time_to_qsafe', 'migration_time', 
+      if (['key_length', 'estimated_time_to_qsafe', 'migration_time', 
            'latency_before', 'latency_after', 'cpu_usage_before', 'cpu_usage_after',
            'memory_usage_before', 'memory_usage_after', 'throughput_before', 'throughput_after',
            'compliance_score', 'encryption_strength_index', 'predicted_latency', 'predicted_cpu', 'predicted_memory'].includes(header)) {
         asset[header] = parseInt(value) || 0;
-      } else if (['quantum_risk_score', 'predicted_migration_risk'].includes(header)) {
+      } else if (['quantum_risk_score', 'predicted_migration_risk', 'quantum_vulnerability_score'].includes(header)) {
         asset[header] = parseFloat(value) || 0;
       } else {
         asset[header] = value;
